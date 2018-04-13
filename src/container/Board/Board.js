@@ -4,7 +4,7 @@ class Board extends Component {
   render() {
     return (
       <div>
-        <h1>test board</h1>
+        <h1>actual board</h1>
       </div>
     );
   }
