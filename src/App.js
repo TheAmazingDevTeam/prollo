@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
+import {Route, Switch} from 'react-router-dom';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Prollo</h1>
-      </div>
-    );
-  }
-}
+import Board from './container/Board/Board';
+import BoardOverview from './container/BoardOverview/BoardOverview';
 
-export default App;
+const app = () => (
+  <Switch>
+    <Route path="/board/:id" component={Board} />
+    <Route path="/" component={BoardOverview} />
+  </Switch>
+);
+
+
+export default app;
