@@ -1,6 +1,8 @@
 import React from 'react';
 
-const createBoardModal = () => (
+import AddBoardModal from '../AddBoardModal/AddBoardModal';
+
+const createBoardModal = props => (
   <div className="modal-content">
     <div className="modal-header">
       <h5 className="modal-title">New board</h5>
@@ -8,12 +10,7 @@ const createBoardModal = () => (
         <span>&times;</span>
       </button>
     </div>
-    <div className="modal-body">
-      <input type="text" className="form-control" placeholder="board name" />
-    </div>
-    <div className="modal-footer">
-      <button type="button" className="btn btn-primary" data-dismiss="modal">create board</button>
-    </div>
+    <AddBoardModal clicked={props.clicked} />
   </div>
 );
 

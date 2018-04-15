@@ -2,10 +2,10 @@ import React from 'react';
 
 import CreateBoardModal from '../CreateBoardModal/CreateBoardModal';
 
-const modal = () => (
+const modal = props => (
   <div className="modal fade" id="boardModal">
     <div className="modal-dialog">
-      <CreateBoardModal />
+      <CreateBoardModal clicked={props.clicked} />
     </div>
   </div>
 );

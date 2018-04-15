@@ -12,21 +12,20 @@ class BoardOverview extends Component {
     }, {
       id: 2,
       title: 'summer projects'
-    }, {
-      id: 3,
-      title: 'things to do'
     }]
   }
 
-  // onClickBoardCreator = event => {
-  //   const oldBoards = [...this.state.boards];
-  //   this.setState(
-  //     ...oldBoards,
-  //     {
-  //       id: oldBoards.length,
-  //       title: event.target.value
-  //     });
-  // }
+  modalBoardCreator = boardName => {
+    const oldBoards = [...this.state.boards];
+    this.setState({
+      boards: [
+        ...oldBoards,
+        {
+          id: oldBoards.length + 1,
+          title: boardName
+        }]
+    });
+  }
 
   render() {
     return (
@@ -38,7 +37,7 @@ class BoardOverview extends Component {
             <CreateBoard />
           </div>
         </div>
-        <Modal />
+        <Modal clicked={this.modalBoardCreator}/>
       </div>
     );
   }
