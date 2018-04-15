@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import CreateBoard from '../../components/CreateBoard/CreateBoard';
 import Boards from '../../components/Boards/Boards';
+import Modal from '../../components/Modal/Modal';
 
 class BoardOverview extends Component {
   state = {
@@ -17,16 +18,27 @@ class BoardOverview extends Component {
     }]
   }
 
+  // onClickBoardCreator = event => {
+  //   const oldBoards = [...this.state.boards];
+  //   this.setState(
+  //     ...oldBoards,
+  //     {
+  //       id: oldBoards.length,
+  //       title: event.target.value
+  //     });
+  // }
+
   render() {
     return (
       <div className="container">
         <h1 className="my-5">Personal Boards</h1>
         <div className="row">
-          <Boards boards={this.state.boards}/>
+          <Boards boards={this.state.boards} />
           <div className="col-4 mb-4">
             <CreateBoard />
           </div>
         </div>
+        <Modal />
       </div>
     );
   }
