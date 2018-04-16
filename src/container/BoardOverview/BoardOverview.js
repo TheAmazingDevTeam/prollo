@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import CreateBoard from '../../components/CreateBoard/CreateBoard';
 import Boards from '../../components/Boards/Boards';
 import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal';
+import Layout from '../../hoc/Layout/Layout';
 
 class BoardOverview extends Component {
   state = {
@@ -32,16 +33,18 @@ class BoardOverview extends Component {
 
   render() {
     return (
-      <div className="container">
-        <h1 className="my-5">Personal Boards</h1>
-        <div className="row">
-          <Boards boards={this.state.boards} />
-          <div className="col-4 mb-4">
-            <CreateBoard />
+      <Layout boards={this.state.boards}>
+        <div className="container">
+          <h1 className="my-5">Personal Boards</h1>
+          <div className="row">
+            <Boards boards={this.state.boards} />
+            <div className="col-4 mb-4">
+              <CreateBoard />
+            </div>
           </div>
+          <CreateBoardModal clicked={this.onCreate} />
         </div>
-        <CreateBoardModal clicked={this.onCreate} />
-      </div>
+      </Layout>
     );
   }
 }

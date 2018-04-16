@@ -1,12 +1,13 @@
 import React from 'react';
 
 import {Link} from 'react-router-dom';
+import DropdownButton from '../DropdownButton/DropdownButton';
 
 const navbar = props => (
   <nav className="navbar navbar-expand navbar-light bg-light">
     <div className="row w-100">
       <div className="col-1">
-        <button className="btn btn-primary btn-block">Boards</button>
+        <DropdownButton boards={props.boards} />
       </div>
       <div className="col-2">
         <form>

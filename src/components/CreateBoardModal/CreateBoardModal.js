@@ -4,7 +4,7 @@ import AddBoardModal from '../AddBoardModal/AddBoardModal';
 import Modal from '../../hoc/Modal/Modal';
 
 const createBoardModal = props => (
-  <Modal>
+  <Modal modalId="boardModal">
     <div className="modal-content">
       <div className="modal-header">
         <h5 className="modal-title">New board</h5>
