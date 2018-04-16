@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import CreateBoard from '../../components/CreateBoard/CreateBoard';
 import Boards from '../../components/Boards/Boards';
-import Modal from '../../components/Modal/Modal';
+import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal';
 
 class BoardOverview extends Component {
   state = {
@@ -13,18 +13,20 @@ class BoardOverview extends Component {
       id: 2,
       title: 'summer projects'
     }]
-  }
+  };
 
-  modalBoardCreator = boardName => {
+  onCreateModalBoard = boardName => {
     const oldBoards = [...this.state.boards];
-    this.setState({
-      boards: [
-        ...oldBoards,
-        {
-          id: oldBoards.length + 1,
-          title: boardName
-        }]
-    });
+    const boards = [
+      ...oldBoards,
+      {
+        id: oldBoards.length + 1,
+        title: boardName
+      }
+    ];
+
+    this.setState({boards});
+    console.log(this.props)
   }
 
   render() {
@@ -37,7 +39,7 @@ class BoardOverview extends Component {
             <CreateBoard />
           </div>
         </div>
-        <Modal clicked={this.modalBoardCreator}/>
+        <CreateBoardModal clicked={this.onCreateModalBoard} />
       </div>
     );
   }
