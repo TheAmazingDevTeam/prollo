@@ -17,17 +17,18 @@ class BoardOverview extends Component {
 
   onCreateModalBoard = boardName => {
     const oldBoards = [...this.state.boards];
+    const board = {
+      id: oldBoards.length + 1,
+      title: boardName
+    };
     const boards = [
       ...oldBoards,
-      {
-        id: oldBoards.length + 1,
-        title: boardName
-      }
+      board
     ];
 
     this.setState({boards});
-    console.log(this.props)
-  }
+    this.props.history.push(`/board/${board.id}`);
+  };
 
   render() {
     return (
