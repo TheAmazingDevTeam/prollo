@@ -12,7 +12,7 @@ class AddBoardModal extends Component {
 
  render() {
    return (
-     <div>
+    <div>
       <div className="modal-body">
         <input onChange={this.onChangeHandler} type="text" className="form-control" placeholder="board name" />
       </div>
@@ -20,7 +20,7 @@ class AddBoardModal extends Component {
         <button onClick={() => this.props.clicked(this.state.boardName)} type="button" className="btn btn-info" data-dismiss="modal">create board</button>
       </div>
     </div>
-   )
+   );
  }
 }
 

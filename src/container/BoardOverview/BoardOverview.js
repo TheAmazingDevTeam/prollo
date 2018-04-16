@@ -15,7 +15,7 @@ class BoardOverview extends Component {
     }]
   };
 
-  onCreateModalBoard = boardName => {
+  onCreate = boardName => {
     const oldBoards = [...this.state.boards];
     const board = {
       id: oldBoards.length + 1,
@@ -40,7 +40,7 @@ class BoardOverview extends Component {
             <CreateBoard />
           </div>
         </div>
-        <CreateBoardModal clicked={this.onCreateModalBoard} />
+        <CreateBoardModal clicked={this.onCreate} />
       </div>
     );
   }
