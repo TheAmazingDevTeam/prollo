@@ -8,20 +8,38 @@ import Layout from '../../hoc/Layout/Layout';
 class BoardOverview extends Component {
   state = {
     boards : [{
-      id: 1,
-      title: 'Welcome board'
-    }, {
-      id: 2,
-      title: 'summer projects'
+      id: null,
+      title: ''
     }]
   };
 
-  onCreate = boardName => {
+  async componentDidMount() {
+    const response = await fetch('https://prollo-8a5a5.firebaseio.com/boards.json');
+    const boards = await response.json();
+    const updatedBoards = [];
+
+    for (let key in boards) {
+      updatedBoards.push({
+        id: key,
+        ...boards[key]
+      })
+    }
+    this.setState({boards: updatedBoards});
+  }
+
+  onCreate = async title => {
     const oldBoards = [...this.state.boards];
+
+    await fetch('https://prollo-8a5a5.firebaseio.com/boards.json', {
+      method: 'post',
+      body: JSON.stringify({title})
+    });
+
     const board = {
       id: oldBoards.length + 1,
-      title: boardName
+      title
     };
+    
     const boards = [
       ...oldBoards,
       board

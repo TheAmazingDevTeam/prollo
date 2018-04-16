@@ -1,6 +1,6 @@
 import React from 'react';
-
 import {Link} from 'react-router-dom';
+
 import DropdownButton from '../DropdownButton/DropdownButton';
 
 const navbar = props => (
