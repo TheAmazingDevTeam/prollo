@@ -12,7 +12,7 @@ const navbar = props => (
       </div>
       <div className="col-2">
         <form>
-          <NavSearchInput />
+          <NavSearchInput boards={props.boards} changed={props.changed} />
         </form>
       </div>
       <div className="col-6 text-center">

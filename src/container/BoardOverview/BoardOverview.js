@@ -23,7 +23,7 @@ class BoardOverview extends Component {
     }
 
     this.setState({boards: updatedBoards});
-  }
+  };
 
   onCreate = async title => {
     const oldBoards = [...this.state.boards];
@@ -47,12 +47,17 @@ class BoardOverview extends Component {
     this.props.history.push(`/board/${board.id}`);
   };
 
+  onCreateFilter = filteredBoard => {
+    console.log(filteredBoard);
+    this.setState({boards: filteredBoard});
+  };
+
   render() {
     let boards = <p>Loading...</p>;
 
     if (this.state.boards) {
       boards = (
-        <Layout boards={this.state.boards}>
+        <Layout boards={this.state.boards} changed={this.onCreateFilter}>
           <div className="container">
             <h1 className="my-5">Personal Boards</h1>
             <div className="row">
