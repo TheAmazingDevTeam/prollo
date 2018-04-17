@@ -47,11 +47,6 @@ class BoardOverview extends Component {
     this.props.history.push(`/board/${board.id}`);
   };
 
-  onCreateFilter = filteredBoard => {
-    console.log(filteredBoard);
-    this.setState({boards: filteredBoard});
-  };
-
   render() {
     let boards = <p>Loading...</p>;
 
