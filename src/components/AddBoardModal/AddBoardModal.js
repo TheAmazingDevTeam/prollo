@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 class AddBoardModal extends Component {
-
   state = {
     boardName: ''
   };
@@ -16,10 +15,20 @@ class AddBoardModal extends Component {
         <form>
           <div className="form-group">
             <label>Board name:</label>
-            <input onChange={this.onChangeHandler} type="text" className="form-control" placeholder="My cool Todos" />
+            <input
+              className="form-control"
+              type="text"
+              onChange={this.onChangeHandler}
+              placeholder="My cool Todos"
+            />
           </div>
           <div className="d-flex flex-row-reverse">
-            <button onClick={() => this.props.clicked(this.state.boardName)} type="button" className="btn btn-info" data-dismiss="modal">Create</button>
+            <button
+              className="btn btn-info"
+              onClick={() => this.props.clicked(this.state.boardName)}
+              type="button"
+              data-dismiss="modal"
+            >Create</button>
           </div>
         </form>
       </div>
