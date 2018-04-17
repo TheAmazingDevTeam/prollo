@@ -30,13 +30,15 @@ class BoardOverview extends Component {
   onCreate = async title => {
     const oldBoards = [...this.state.boards];
 
-    await fetch('https://prollo-8a5a5.firebaseio.com/boards.json', {
+    const response = await fetch('https://prollo-8a5a5.firebaseio.com/boards.json', {
       method: 'post',
       body: JSON.stringify({title})
     });
 
+    const jsonResponse = await response.json();
+
     const board = {
-      id: oldBoards.length + 1,
+      id: jsonResponse.name,
       title
     };
     
