@@ -7,10 +7,7 @@ import Layout from '../../hoc/Layout/Layout';
 
 class BoardOverview extends Component {
   state = {
-    boards : [{
-      id: null,
-      title: ''
-    }]
+    boards: null
   };
 
   async componentDidMount() {
@@ -22,26 +19,25 @@ class BoardOverview extends Component {
       updatedBoards.push({
         id: key,
         ...boards[key]
-      })
+      });
     }
+
     this.setState({boards: updatedBoards});
   }
 
   onCreate = async title => {
     const oldBoards = [...this.state.boards];
-
     const response = await fetch('https://prollo-8a5a5.firebaseio.com/boards.json', {
       method: 'post',
       body: JSON.stringify({title})
     });
 
     const jsonResponse = await response.json();
-
     const board = {
       id: jsonResponse.name,
       title
     };
-    
+
     const boards = [
       ...oldBoards,
       board
@@ -52,20 +48,26 @@ class BoardOverview extends Component {
   };
 
   render() {
-    return (
-      <Layout boards={this.state.boards}>
-        <div className="container">
-          <h1 className="my-5">Personal Boards</h1>
-          <div className="row">
-            <Boards boards={this.state.boards} />
-            <div className="col-4 mb-4">
-              <CreateBoard />
+    let boards = <p>Loading...</p>;
+
+    if (this.state.boards) {
+      boards = (
+        <Layout boards={this.state.boards}>
+          <div className="container">
+            <h1 className="my-5">Personal Boards</h1>
+            <div className="row">
+              <Boards boards={this.state.boards} />
+              <div className="col-4 mb-4">
+                <CreateBoard />
+              </div>
             </div>
+            <CreateBoardModal clicked={this.onCreate} />
           </div>
-          <CreateBoardModal clicked={this.onCreate} />
-        </div>
-      </Layout>
-    );
+        </Layout>
+      );
+    }
+
+    return boards;
   }
 }
 
