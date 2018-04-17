@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 
 const layout = props => (
   <Fragment>
-    <Navbar boards={props.boards} changed={props.changed} />
+    <Navbar boards={props.boards} />
     {props.children}
   </Fragment>
 );

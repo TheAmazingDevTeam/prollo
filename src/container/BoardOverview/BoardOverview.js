@@ -57,7 +57,7 @@ class BoardOverview extends Component {
 
     if (this.state.boards) {
       boards = (
-        <Layout boards={this.state.boards} changed={this.onCreateFilter}>
+        <Layout boards={this.state.boards}>
           <div className="container">
             <h1 className="my-5">Personal Boards</h1>
             <div className="row">

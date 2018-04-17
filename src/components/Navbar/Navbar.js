@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import DropdownButton from '../DropdownButton/DropdownButton';
-import NavSearchInput from '../NavSearchInput/NavSearchInput';
 
 const navbar = props => (
   <nav className="navbar navbar-expand navbar-light bg-light">
@@ -12,7 +11,7 @@ const navbar = props => (
       </div>
       <div className="col-2">
         <form>
-          <NavSearchInput boards={props.boards} changed={props.changed} />
+        <input className="form-control"/>
         </form>
       </div>
       <div className="col-6 text-center">
