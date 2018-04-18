@@ -32,7 +32,15 @@ class Board extends Component {
                     </div>
                   </div>
                 </div>
-                <p>Eine Karte hinzufügen...</p>
+                <div>
+                  <p data-toggle="collapse" data-target="#cardOne">Eine Karte hinzufügen...</p>
+                  <div id="cardOne" className="collapse">
+                    <div className="input-group input-group-lg">
+                      <input type="text" className="form-control"/>
+                    </div>
+                    <button className="btn btn-info my-2">hinzufügen</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="col-2">
@@ -52,12 +60,28 @@ class Board extends Component {
                     </div>
                   </div>
                 </div>
-                <p>Eine Karte hinzufügen...</p>
+                <div>
+                  <p data-toggle="collapse" data-target="#cardTwo">Eine Karte hinzufügen...</p>
+                  <div id="cardTwo" className="collapse">
+                    <div className="input-group input-group-lg">
+                      <input type="text" className="form-control"/>
+                    </div>
+                    <button className="btn btn-info my-2">hinzufügen</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="col-2">
-              <div className="bg-light rounded">
-              <p className="p-2">Eine Karte hinzufügen...</p>
+              <div className="bg-light rounded px-3">
+                <div>
+                  <p className="p-2" data-toggle="collapse" data-target="#cardThree">Eine Liste hinzufügen...</p>
+                  <div id="cardThree" className="collapse">
+                    <div className="input-group input-group-lg">
+                      <input type="text" className="form-control"/>
+                    </div>
+                    <button className="btn btn-info my-2">hinzufügen</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
