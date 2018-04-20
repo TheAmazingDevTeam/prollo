@@ -55,10 +55,10 @@ class App extends Component {
         <Layout boards={this.state.boards}>
           <Switch>
             <Route path="/board/:id" component={Board} />
-            <Route 
-              path="/" 
-              render={() => <BoardOverview boards={this.state.boards} 
-              onCreate={this.onCreate} />} 
+            <Route
+              path="/"
+              render={() => <BoardOverview boards={this.state.boards}
+              onCreate={this.onCreate} />}
             />
           </Switch>
         </Layout>

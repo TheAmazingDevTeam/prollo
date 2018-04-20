@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 
 class CollapseInput extends Component {
   state = {
-    cardName: ''
+    objectName: ''
   };
 
   onChangeHandler = event => {
-    this.setState({cardName: event.target.value});
+    this.setState({objectName: event.target.value});
   };
-  
+
   render() {
     return (
       <div>
@@ -21,7 +21,7 @@ class CollapseInput extends Component {
         </div>
         <button
           className="btn btn-info my-2"
-          onClick={() => this.props.clicked(this.state.cardName)}
+          onClick={() => this.props.clicked(this.state.objectName)}
         >hinzufügen</button>
       </div>
     );
