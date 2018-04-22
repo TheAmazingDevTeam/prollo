@@ -9,7 +9,9 @@ const createBoard = props => (
         className="btn btn-block mx-auto w-50"
         data-toggle="modal"
         data-target="#boardModal"
-      >create board</button>
+      >
+        create board
+      </button>
     </div>
   </div>
 );

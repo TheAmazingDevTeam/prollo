@@ -7,14 +7,14 @@ const dropdownButton = props => (
       className="btn btn-info btn-block dropdown-toggle"
       type="button"
       data-toggle="dropdown"
-    >Boards</button>
+    >
+      Boards
+    </button>
     <div className="dropdown-menu">
       {props.boards.map(board => (
-        <Link
-          to={`board/${board.id}`}
-          key={board.id}
-          className="dropdown-item"
-        >{board.title}</Link>
+        <Link to={`board/${board.id}`} key={board.id} className="dropdown-item">
+          {board.title}
+        </Link>
       ))}
     </div>
   </div>

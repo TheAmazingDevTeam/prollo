@@ -9,8 +9,8 @@ class AddBoardModal extends Component {
     this.setState({boardName: event.target.value});
   };
 
- render() {
-   return (
+  render() {
+    return (
       <div className="modal-body">
         <form>
           <div className="form-group">
@@ -28,7 +28,9 @@ class AddBoardModal extends Component {
               onClick={() => this.props.clicked(this.state.boardName)}
               type="button"
               data-dismiss="modal"
-            >Create</button>
+            >
+              Create
+            </button>
           </div>
         </form>
       </div>
