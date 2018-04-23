@@ -9,17 +9,42 @@ class Board extends Component {
     lists: []
   };
 
+  async componentDidMount() {
+    const response = await fetch('https://prollo-8a5a5.firebaseio.com/lists.json');
+    const lists = await response.json();
+    const updatedLists = [];
+
+    for (let key in lists) {
+      updatedLists.push({
+        id: key,
+        ...lists[key]
+      });
+    }
+
+    this.setState({lists: updatedLists});
+  };
+
   onCreateList = async title => {
-    const lists = [...this.state.lists];
-    this.setState({
-      lists: [
-        ...lists,
-        {
-          id: lists.length + 1,
-          boardid: this.props.match.params,
-          title
-        }]
+    const oldLists = [...this.state.lists];
+    const boardid = this.props.match.params.id;
+    const response = await fetch('https://prollo-8a5a5.firebaseio.com/lists.json', {
+      method: 'post',
+      body:  JSON.stringify({title, boardid})
     });
+
+    const jsonResponse = await response.json();
+    const list = {
+      id: jsonResponse.name,
+      boardid,
+      title
+    };
+
+    const lists = [
+      ...oldLists,
+      list
+    ]
+
+    this.setState({lists});
   };
 
   render() {
