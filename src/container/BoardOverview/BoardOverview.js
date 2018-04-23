@@ -11,7 +11,9 @@ class BoardOverview extends Component {
   };
 
   async componentDidMount() {
-    const response = await fetch('https://prollo-8a5a5.firebaseio.com/boards.json');
+    const response = await fetch(
+      'https://prollo-8a5a5.firebaseio.com/boards.json'
+    );
     const boards = await response.json();
     const updatedBoards = [];
 
@@ -23,14 +25,17 @@ class BoardOverview extends Component {
     }
 
     this.setState({boards: updatedBoards});
-  };
+  }
 
   onCreate = async title => {
     const oldBoards = [...this.state.boards];
-    const response = await fetch('https://prollo-8a5a5.firebaseio.com/boards.json', {
-      method: 'post',
-      body: JSON.stringify({title})
-    });
+    const response = await fetch(
+      'https://prollo-8a5a5.firebaseio.com/boards.json',
+      {
+        method: 'post',
+        body: JSON.stringify({title})
+      }
+    );
 
     const jsonResponse = await response.json();
     const board = {
@@ -38,10 +43,7 @@ class BoardOverview extends Component {
       title
     };
 
-    const boards = [
-      ...oldBoards,
-      board
-    ];
+    const boards = [...oldBoards, board];
 
     this.setState({boards});
     this.props.history.push(`/board/${board.id}`);
