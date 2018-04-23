@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 
-import CardModal from '../../components/CardModal/CardModal';
 import List from '../../components/List/List';
 import AddList from '../../components/AddList/AddList';
 
@@ -33,7 +32,6 @@ class Board extends Component {
             <AddList clicked={this.onCreateList} id={this.state.lists.length + 1} />
           </div>
         </div>
-        <CardModal />
       </div>
     );
   }

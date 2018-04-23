@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 
 import Collapse from '../Collapse/Collapse';
 import Card from '../Card/Card';
-import {withRouter} from 'react-router-dom';
+import CardModal from '../CardModal/CardModal';
+
 
 class List extends Component {
 
@@ -32,6 +34,7 @@ class List extends Component {
             {this.state.cards.map(card => <Card title={card.title} key={card.id} />)}
           <Collapse text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
         </div>
+        <CardModal />
       </div>
     );
   }

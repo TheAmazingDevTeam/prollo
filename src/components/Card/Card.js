@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const card = props => (
-  <div data-toggle="modal" data-target="#cardModal">
-    <div className="card my-2">
-      <div className="card-body">
-        <h5>{props.title}</h5>
+// state fürs modal
+
+class Card extends Component {
+  render() {
+    return (
+      <div data-toggle="modal" data-target="#cardModal">
+        <div className="card my-2">
+          <div className="card-body">
+            <h5>{this.props.title}</h5>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
-export default card;
+export default Card;
