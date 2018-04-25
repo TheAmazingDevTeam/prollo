@@ -7,7 +7,8 @@ import BoardOverview from './container/BoardOverview/BoardOverview';
 
 class App extends Component {
   state = {
-    boards: null
+    boards: null,
+    activeBoard: {}
   };
 
   async componentDidMount() {
@@ -47,6 +48,10 @@ class App extends Component {
     this.props.history.push(`/board/${board.id}`);
   };
 
+  setActiveBoard = board => {
+    this.setState({activeBoard: board});
+  };
+
   render() {
     let boards = <p>Loading...</p>;
 
@@ -54,11 +59,12 @@ class App extends Component {
       boards = (
         <Layout boards={this.state.boards}>
           <Switch>
-            <Route path="/board/:id" component={Board} />
+            <Route path="/board/:id" render={() => <Board board={this.state.activeBoard} />} />
             <Route
               path="/"
               render={() => <BoardOverview boards={this.state.boards}
-              onCreate={this.onCreate} />}
+              onCreate={this.onCreate}
+              clicked={this.setActiveBoard} />}
             />
           </Switch>
         </Layout>

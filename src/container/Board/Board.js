@@ -27,6 +27,7 @@ class Board extends Component {
 
   onCreateList = async title => {
     const oldLists = [...this.state.lists];
+    console.log(this.props.match);
     const boardid = this.props.match.params.id;
     const response = await fetch('https://prollo-8a5a5.firebaseio.com/lists.json', {
       method: 'post',
@@ -52,7 +53,7 @@ class Board extends Component {
     return (
       <div>
         <Container fluid>
-          <h1 className="h3 my-4">Board title</h1>
+          <h1 className="h3 my-4">{this.props.board.title}</h1>
           <Row>
             {this.state.lists.map(list =>
               list.boardid === this.props.match.params.id ? <List listTitle={list.title} key={list.id} id={list.id} boardid={list.boardid} /> : null

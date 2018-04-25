@@ -19,7 +19,7 @@ class BoardOverview extends Component {
       <Container>
         <h1 className="my-5">Personal Boards</h1>
         <Row>
-          <Boards boards={this.props.boards} />
+          <Boards boards={this.props.boards} clicked={this.props.clicked} />
           <div className="col-4 mb-4">
             <CreateBoard clicked={this.toggle} />
           </div>
