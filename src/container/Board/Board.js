@@ -53,8 +53,10 @@ class Board extends Component {
         <div className="container-fluid">
           <h1 className="h3 my-4">Board title</h1>
           <div className="row">
-            {this.state.lists.map(list => <List listTitle={list.title} key={list.id} id={list.id} boardid={list.boardid} />)}
-            <AddList clicked={this.onCreateList} id={this.state.lists.length + 1} />
+            {this.state.lists.map(list =>
+              {if (list.boardid === this.props.match.params.id) return <List listTitle={list.title} key={list.id} id={list.id} boardid={list.boardid} />}
+            )}
+          <AddList clicked={this.onCreateList} id={this.state.lists.length} />
           </div>
         </div>
       </div>

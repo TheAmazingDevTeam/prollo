@@ -31,7 +31,9 @@ class List extends Component {
       <div className="col-2">
         <div className="bg-light rounded px-3 py-1" boardid={this.props.boardId} key={this.props.id}>
           <h2 className="h4 my-2">{this.props.listTitle}</h2>
-            {this.state.cards.map(card => <Card title={card.title} key={card.id} />)}
+            {this.state.cards.map(card =>
+              {if (card.listid === this.props.id) return <Card title={card.title} key={card.id} />}
+            )}
           <Collapse text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
         </div>
         <CardModal />
