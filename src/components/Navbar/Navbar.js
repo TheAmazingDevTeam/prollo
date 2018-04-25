@@ -2,13 +2,13 @@ import React from 'react';
 import {Navbar, Row, Col, Input, FormGroup} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
-import DropdownButton from '../DropdownButton/DropdownButton';
+import OpenInputButton from '../OpenInputButton/OpenInputButton';
 
 const navbar = props => (
   <Navbar color="light" light expand>
     <Row className="w-100">
       <Col xs="1">
-        <DropdownButton boards={props.boards} />
+        <OpenInputButton boards={props.boards} />
       </Col>
       <Col xs="2">
         <FormGroup>

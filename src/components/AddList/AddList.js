@@ -1,12 +1,12 @@
 import React from 'react';
-import {Col, Alert} from 'reactstrap';
+import {Col} from 'reactstrap';
 
-import Collapse from '../Collapse/Collapse';
+import CollapseButton from '../CollapseButton/CollapseButton';
 
 const addList = props => (
   <Col xs="2">
     <div className="bg-light rounded px-3">
-      <Collapse text="Liste hinzufügen.." classes="p-2" id={props.id} clicked={props.clicked} />
+      <CollapseButton text="Liste hinzufügen.." classes="p-2" clicked={props.clicked} />
     </div>
   </Col>
 );

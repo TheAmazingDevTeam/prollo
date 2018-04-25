@@ -6,6 +6,14 @@ import Boards from '../../components/Boards/Boards';
 import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal';
 
 class BoardOverview extends Component {
+  state = {
+    modal: false
+  };
+
+  toggle = () => {
+    this.setState({modal: !this.state.modal});
+  };
+
   render() {
     return (
       <Container>
@@ -13,10 +21,10 @@ class BoardOverview extends Component {
         <Row>
           <Boards boards={this.props.boards} />
           <div className="col-4 mb-4">
-            <CreateBoard />
+            <CreateBoard clicked={this.toggle} />
           </div>
         </Row>
-        <CreateBoardModal clicked={this.props.onCreate} />
+        <CreateBoardModal toggle={this.toggle} showModal={this.state.modal} create={this.props.onCreate} />
       </Container>
     );
   }

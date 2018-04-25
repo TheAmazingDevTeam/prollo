@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Col} from 'reactstrap';
 import {withRouter} from 'react-router-dom';
 
-import Collapse from '../Collapse/Collapse';
+import CollapseButton from '../CollapseButton/CollapseButton';
 import Card from '../Card/Card';
 import CardModal from '../CardModal/CardModal';
 
@@ -10,7 +10,8 @@ import CardModal from '../CardModal/CardModal';
 class List extends Component {
 
   state = {
-    cards: []
+    cards: [],
+    modal: false
   };
 
   async componentDidMount() {
@@ -50,17 +51,21 @@ class List extends Component {
     this.setState({cards});
   };
 
+  toggle = () => {
+    this.setState({modal: !this.state.modal});
+  };
+
   render() {
     return (
       <Col xs="2">
         <div className="bg-light rounded px-3 py-1" boardid={this.props.boardId} key={this.props.id}>
           <h2 className="h4 my-2">{this.props.listTitle}</h2>
             {this.state.cards.map(card =>
-              card.listid === this.props.id ? <Card title={card.title} key={card.id} /> : null
+              card.listid === this.props.id ? <Card title={card.title} key={card.id} clicked={this.toggle} /> : null
             )}
-          <Collapse text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
+          <CollapseButton text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
         </div>
-        <CardModal />
+        <CardModal toggle={this.toggle} showModal={this.state.modal} />
       </Col>
     );
   }
