@@ -4,7 +4,7 @@ import {Modal, ModalHeader} from 'reactstrap';
 const cardModal = props => (
   <Modal isOpen={props.showModal} toggle={props.toggle}>
     <ModalHeader toggle={props.toggle}>
-      Card title
+      {props.card.title }
     </ModalHeader>
   </Modal>
 );

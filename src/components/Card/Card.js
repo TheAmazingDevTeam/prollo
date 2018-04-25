@@ -6,10 +6,10 @@ import {Card, CardBody} from 'reactstrap';
 class CardComponent extends Component {
   render() {
     return (
-      <div onClick={this.props.clicked}>
+      <div onClick={() => this.props.toggled(this.props.card)}>
         <Card xs="2">
           <CardBody>
-            <h5>{this.props.title}</h5>
+            <h5>{this.props.card.title}</h5>
           </CardBody>
         </Card>
       </div>
