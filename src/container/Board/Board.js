@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Container, Row} from 'reactstrap';
 import {withRouter} from 'react-router-dom';
 
 import List from '../../components/List/List';
@@ -50,15 +51,15 @@ class Board extends Component {
   render() {
     return (
       <div>
-        <div className="container-fluid">
+        <Container fluid>
           <h1 className="h3 my-4">Board title</h1>
-          <div className="row">
+          <Row>
             {this.state.lists.map(list =>
-              {if (list.boardid === this.props.match.params.id) return <List listTitle={list.title} key={list.id} id={list.id} boardid={list.boardid} />}
+              list.boardid === this.props.match.params.id ? <List listTitle={list.title} key={list.id} id={list.id} boardid={list.boardid} /> : null
             )}
           <AddList clicked={this.onCreateList} id={this.state.lists.length} />
-          </div>
-        </div>
+          </Row>
+        </Container>
       </div>
     );
   }

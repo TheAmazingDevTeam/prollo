@@ -1,11 +1,12 @@
 import React from 'react';
+import {Col} from 'reactstrap';
 
 import BoardSelection from '../../components/BoardSelection/BoardSelection';
 
 const boards = props => props.boards.map(board => (
-  <div key={board.id} className="col-4 mb-4">
+  <Col xs="4" key={board.id} className="mb-4">
     <BoardSelection title={board.title} id={board.id} />
-  </div>
+  </Col>
 ));
 
 export default boards;

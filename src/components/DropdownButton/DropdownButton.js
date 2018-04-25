@@ -1,23 +1,22 @@
 import React from 'react';
+import {Dropdown, dropdownButton, DropdownMenu, DropdownItem} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
-const dropdownButton = props => (
-  <div className="dropdown">
-    <button
-      className="btn btn-info btn-block dropdown-toggle"
-      type="button"
-      data-toggle="dropdown"
-    >Boards</button>
-    <div className="dropdown-menu">
+const dropdownButtonFunction = props => (
+  <Dropdown>
+    <dropdownButton
+      color="info"
+      className="btn-block"
+    >Boards</dropdownButton>
+    <DropdownMenu>
       {props.boards.map(board => (
         <Link
           to={`board/${board.id}`}
           key={board.id}
-          className="dropdown-item"
-        >{board.title}</Link>
+        ><DropdownItem>{board.title}</DropdownItem></Link>
       ))}
-    </div>
-  </div>
+    </DropdownMenu>
+  </Dropdown>
 );
 
-export default dropdownButton;
+export default dropdownButtonFunction;

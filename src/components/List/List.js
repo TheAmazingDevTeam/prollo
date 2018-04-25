@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Col} from 'reactstrap';
 import {withRouter} from 'react-router-dom';
 
 import Collapse from '../Collapse/Collapse';
@@ -12,32 +13,55 @@ class List extends Component {
     cards: []
   };
 
+  async componentDidMount() {
+    const response = await fetch('https://prollo-8a5a5.firebaseio.com/cards.json');
+    const cards = await response.json();
+    const updatedCards = [];
+
+    for (let key in cards) {
+      updatedCards.push({
+        id: key,
+        ...cards[key]
+      });
+    }
+
+    this.setState({cards: updatedCards});
+  };
+
   onCreate = async title => {
-    const cards = [...this.state.cards];
-    this.setState({
-      cards: [
-        ...cards,
-        {
-          id: cards.length + 1,
-          listid: this.props.id,
-          boardid: this.props.match.params,
-          title
-        }]
+    const oldCards = [...this.state.cards];
+    const listid = this.props.id;
+    const response = await fetch('https://prollo-8a5a5.firebaseio.com/cards.json', {
+      method: 'post',
+      body:  JSON.stringify({title, listid})
     });
+
+    const jsonResponse = await response.json();
+    const card = {
+      id: jsonResponse.name,
+      listid,
+      title
+    };
+
+    const cards = [
+      ...oldCards,
+      card
+    ]
+    this.setState({cards});
   };
 
   render() {
     return (
-      <div className="col-2">
+      <Col xs="2">
         <div className="bg-light rounded px-3 py-1" boardid={this.props.boardId} key={this.props.id}>
           <h2 className="h4 my-2">{this.props.listTitle}</h2>
             {this.state.cards.map(card =>
-              {if (card.listid === this.props.id) return <Card title={card.title} key={card.id} />}
+              card.listid === this.props.id ? <Card title={card.title} key={card.id} /> : null
             )}
           <Collapse text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
         </div>
         <CardModal />
-      </div>
+      </Col>
     );
   }
 };
