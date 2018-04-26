@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Input, InputGroup, Button} from 'reactstrap';
 
 class CollapseInput extends Component {
   state = {
@@ -12,17 +13,17 @@ class CollapseInput extends Component {
   render() {
     return (
       <div>
-        <div className="input-group input-group-lg">
-          <input
+        <InputGroup size="lg">
+          <Input
             type="text"
-            className="form-control"
             onChange={this.onChangeHandler}
           />
-        </div>
-        <button
-          className="btn btn-info my-2"
+        </InputGroup>
+        <Button
+          color="info"
+          className="my-2"
           onClick={() => this.props.clicked(this.state.objectName)}
-        >hinzufügen</button>
+        >hinzufügen</Button>
       </div>
     );
   }
