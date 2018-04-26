@@ -57,14 +57,14 @@ class List extends Component {
     this.setState({activeCard: card});
     console.log(this.state.activeCard);
   };
-  
+
   render() {
     return (
       <Col xs="2">
         <div className="bg-light rounded px-3 py-1" boardid={this.props.boardId} key={this.props.id}>
           <h2 className="h4 my-2">{this.props.listTitle}</h2>
             {this.state.cards.map(card =>
-              card.listid === this.props.id ? <Card card={card} toggled={this.toggle} /> : null
+              card.listid === this.props.id ? <Card card={card} key={card.id} toggled={this.toggle} /> : null
             )}
           <CollapseButton text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
         </div>

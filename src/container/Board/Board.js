@@ -7,7 +7,8 @@ import AddList from '../../components/AddList/AddList';
 
 class Board extends Component {
   state = {
-    lists: []
+    lists: [],
+    activeBoard: null
   };
 
   async componentDidMount() {
@@ -22,16 +23,30 @@ class Board extends Component {
       });
     }
 
+    const activeBoardId = this.props.match.params.id;
+    const activeBoardResponse = await fetch(`https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`);
+    const board = await activeBoardResponse.json();
+
+    this.setState({activeBoard: board});
     this.setState({lists: updatedLists});
   };
 
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevProps.location !== this.props.location) {
+      const activeBoardId = this.props.match.params.id;
+      const activeBoardResponse = await fetch(`https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`);
+      const board = await activeBoardResponse.json();
+
+      this.setState({activeBoard: board});
+    }
+  }
+
   onCreateList = async title => {
     const oldLists = [...this.state.lists];
-    console.log(this.props.match);
     const boardid = this.props.match.params.id;
     const response = await fetch('https://prollo-8a5a5.firebaseio.com/lists.json', {
       method: 'post',
-      body:  JSON.stringify({title, boardid})
+      body: JSON.stringify({title, boardid})
     });
 
     const jsonResponse = await response.json();
@@ -50,19 +65,24 @@ class Board extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <Container fluid>
-          <h1 className="h3 my-4">{this.props.board.title}</h1>
-          <Row>
-            {this.state.lists.map(list =>
-              list.boardid === this.props.match.params.id ? <List listTitle={list.title} key={list.id} id={list.id} boardid={list.boardid} /> : null
-            )}
-          <AddList clicked={this.onCreateList} id={this.state.lists.length} />
-          </Row>
-        </Container>
-      </div>
-    );
+    let boards = <p>Loading...</p>;
+
+    if (this.state.activeBoard) {
+      boards = (
+        <div>
+          <Container fluid>
+            <h1 className="h3 my-4">{this.state.activeBoard.title}</h1>
+            <Row>
+              {this.state.lists.map(list =>
+                list.boardid === this.props.match.params.id ? <List listTitle={list.title} key={list.id} id={list.id} boardid={list.boardid} /> : null
+              )}
+            <AddList clicked={this.onCreateList} id={this.state.lists.length} />
+            </Row>
+          </Container>
+        </div>
+      );
+    }
+    return boards;
   }
 }
 

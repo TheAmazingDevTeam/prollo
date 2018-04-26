@@ -8,7 +8,7 @@ import BoardOverview from './container/BoardOverview/BoardOverview';
 class App extends Component {
   state = {
     boards: null,
-    activeBoard: {}
+    activeBoard: null
   };
 
   async componentDidMount() {
@@ -70,7 +70,6 @@ class App extends Component {
         </Layout>
       );
     }
-
     return boards;
   }
 }
