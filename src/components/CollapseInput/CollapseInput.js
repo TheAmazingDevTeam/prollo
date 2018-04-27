@@ -16,6 +16,7 @@ class CollapseInput extends Component {
         <InputGroup size="lg">
           <Input
             type="text"
+            value={this.state.objectName}
             onChange={this.onChangeHandler}
           />
         </InputGroup>

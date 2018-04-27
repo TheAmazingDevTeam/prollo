@@ -24,7 +24,7 @@ class List extends Component {
         id: key,
         ...cards[key]
       });
-    }
+    };
 
     this.setState({cards: updatedCards});
   };
@@ -51,10 +51,21 @@ class List extends Component {
     this.setState({cards});
   };
 
-  toggle = card => {
-    this.setState({modal: !this.state.modal});
-    this.setState({activeCard: card});
+  setDescription = async description => {
     console.log(this.state.activeCard);
+    const activeCard = {...this.state.activeCard};
+
+    await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`, {
+      method: 'put',
+      body:  JSON.stringify({...activeCard, description})
+    });
+  };
+
+  toggle = card => {
+    this.setState({
+      modal: !this.state.modal,
+      activeCard: card
+    });
   };
 
   render() {
@@ -67,7 +78,7 @@ class List extends Component {
             )}
           <CollapseButton text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
         </div>
-        <CardModal toggle={this.toggle} showModal={this.state.modal} card={this.state.activeCard} />
+        <CardModal toggle={this.toggle} showModal={this.state.modal} modal={this.state.modal} card={this.state.activeCard} clicked={this.setDescription} />
       </Col>
     );
   }
