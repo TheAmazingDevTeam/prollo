@@ -4,7 +4,6 @@ import {Collapse} from 'reactstrap';
 import CollapseInput from '../CollapseInput/CollapseInput';
 
 class CollapseButton extends Component {
-
   state = {
     collapse: false
   }

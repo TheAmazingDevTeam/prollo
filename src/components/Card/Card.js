@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {Card, CardBody} from 'reactstrap';
 
-// state fürs modal
-
 class CardComponent extends Component {
   render() {
     return (

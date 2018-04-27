@@ -8,7 +8,6 @@ import CardModal from '../CardModal/CardModal';
 
 
 class List extends Component {
-
   state = {
     cards: [],
     activeCard: {},

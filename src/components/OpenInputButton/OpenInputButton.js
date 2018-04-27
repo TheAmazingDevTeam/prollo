@@ -3,7 +3,6 @@ import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
 class OpenInputButton extends Component {
-
   state = {
     dropdownOpen: false
   };

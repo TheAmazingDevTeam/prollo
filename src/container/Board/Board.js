@@ -27,8 +27,10 @@ class Board extends Component {
     const activeBoardResponse = await fetch(`https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`);
     const board = await activeBoardResponse.json();
 
-    this.setState({activeBoard: board});
-    this.setState({lists: updatedLists});
+    this.setState({
+      activeBoard: board,
+      lists: updatedLists
+    });
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -39,7 +41,7 @@ class Board extends Component {
 
       this.setState({activeBoard: board});
     }
-  }
+  };
 
   onCreateList = async title => {
     const oldLists = [...this.state.lists];

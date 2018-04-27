@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Row} from 'reactstrap';
+import {Container, Row, Col} from 'reactstrap';
 
 import CreateBoard from '../../components/CreateBoard/CreateBoard';
 import Boards from '../../components/Boards/Boards';
@@ -20,9 +20,9 @@ class BoardOverview extends Component {
         <h1 className="my-5">Personal Boards</h1>
         <Row>
           <Boards boards={this.props.boards} clicked={this.props.clicked} />
-          <div className="col-4 mb-4">
+          <Col xs="4" className="mb-4">
             <CreateBoard clicked={this.toggle} />
-          </div>
+          </Col>
         </Row>
         <CreateBoardModal toggle={this.toggle} showModal={this.state.modal} create={this.props.onCreate} />
       </Container>
