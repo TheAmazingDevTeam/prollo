@@ -14,7 +14,7 @@ class OpenInputButton extends Component {
   render() {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
+        <DropdownToggle color="info" caret>
           Boards
         </DropdownToggle>
         <DropdownMenu>

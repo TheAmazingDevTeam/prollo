@@ -1,19 +1,28 @@
 import React, {Component} from 'react';
-import {Modal, ModalHeader, ModalBody, Collapse, InputGroup, Input, Button} from 'reactstrap';
+import {Modal, ModalHeader, ModalBody, FormGroup, Input, Button} from 'reactstrap';
 
 
 class CardModal extends Component {
   state = {
-    collapse: false,
+    editing: false,
     objectName: ''
   };
 
   toggle = () => {
-    this.setState({collapse: !this.state.collapse});
+    this.setState({
+      editing: !this.state.editing,
+      objectName: this.props.card.description
+    });
   };
 
   onChangeHandler = event => {
     this.setState({objectName: event.target.value});
+    this.setState({editing: true});
+  };
+
+  onCreateCard = objectName => {
+    this.toggle();
+    this.props.clicked(objectName);
   };
 
   render() {
@@ -23,18 +32,22 @@ class CardModal extends Component {
           {this.props.card.title}
         </ModalHeader>
         <ModalBody>
-          <u onClick={this.toggle} className={this.props.classes}>Beschreibung bearbeiten:</u>
-          {this.state.collapse ? null : <p>{this.props.card.description}</p>}
-          <Collapse className="m-3" isOpen={this.state.collapse}>
-            <InputGroup size="lg">
+          <u onClick={this.toggle} className={this.props.classes}>
+            {this.props.card.description 
+            ? 'Beschreibung bearbeiten:' 
+            : 'Beschreibung hinzufügen:'}
+          </u>
+          {this.state.editing || !this.props.card.description ? (
+            <FormGroup size="md">
               <Input
-                type="text"
-                value={this.state.objectName.description}
+                type="textarea"
+                value={this.state.objectName}
                 onChange={this.onChangeHandler}
+                className="my-3" 
               />
-            </InputGroup>
-            <Button color="info" className="my-2" onClick={() => this.props.clicked(this.state.objectName)}>hinzufügen</Button>
-          </Collapse>
+            </FormGroup>
+          ) : <p onClick={this.toggle}>{this.props.card.description}</p>}
+          <Button size="sm" color="secondary" className="my-2" onClick={() => this.onCreateCard(this.state.objectName)}>bearbeiten</Button>
         </ModalBody>
       </Modal>
     );

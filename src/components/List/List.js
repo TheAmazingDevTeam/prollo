@@ -9,7 +9,7 @@ import CardModal from '../CardModal/CardModal';
 
 class List extends Component {
   state = {
-    cards: [],
+    cards: null,
     activeCard: {},
     modal: false
   };
@@ -47,18 +47,20 @@ class List extends Component {
     const cards = [
       ...oldCards,
       card
-    ]
+    ];
     this.setState({cards});
   };
 
   setDescription = async description => {
-    console.log(this.state.activeCard);
-    const activeCard = {...this.state.activeCard};
+    const activeCard = {...this.state.activeCard, description};
 
     await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`, {
       method: 'put',
-      body:  JSON.stringify({...activeCard, description})
+      body:  JSON.stringify(activeCard)
     });
+
+    const cards = this.state.cards.map((card) => card.id === activeCard.id ? activeCard : card);
+    this.setState({cards, activeCard});
   };
 
   toggle = card => {
@@ -69,18 +71,23 @@ class List extends Component {
   };
 
   render() {
-    return (
-      <Col xs="2">
-        <div className="bg-light rounded px-3 py-1" boardid={this.props.boardId} key={this.props.id}>
-          <h2 className="h4 my-2">{this.props.listTitle}</h2>
-            {this.state.cards.map(card =>
-              card.listid === this.props.id ? <Card card={card} key={card.id} toggled={this.toggle} /> : null
-            )}
-          <CollapseButton text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
-        </div>
-        <CardModal toggle={this.toggle} showModal={this.state.modal} modal={this.state.modal} card={this.state.activeCard} clicked={this.setDescription} />
-      </Col>
-    );
+    let cards = <p>Loading...</p>;
+    
+    if (this.state.cards) {
+      cards = (
+        <Col xs="2">
+          <div className="bg-light rounded px-3 py-1" boardid={this.props.boardId} key={this.props.id}>
+            <h2 className="h4 my-2">{this.props.listTitle}</h2>
+              {this.state.cards.map(card =>
+                card.listid === this.props.id ? <Card card={card} key={card.id} toggled={this.toggle} /> : null
+              )}
+            <CollapseButton text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
+          </div>
+          <CardModal toggle={this.toggle} showModal={this.state.modal} modal={this.state.modal} card={this.state.activeCard} clicked={this.setDescription} />
+        </Col>
+      );
+    }
+    return cards;
   }
 };
 
