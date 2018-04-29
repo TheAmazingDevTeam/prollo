@@ -48,6 +48,12 @@ class CardModal extends Component {
             </FormGroup>
           ) : <p onClick={this.toggle}>{this.props.card.description}</p>}
           <Button size="sm" color="secondary" className="my-2" onClick={() => this.onCreateCard(this.state.objectName)}>bearbeiten</Button>
+          <p>{this.props.card.checklists ? this.props.card.checklists.map(item => item.title) : null}</p>
+          <ul>
+            {this.props.card.checklists ?
+              Object.values(this.props.card.checklists[0].items).map(i => <li>{i.itemtitle}</li>)
+              : null}
+          </ul>
         </ModalBody>
       </Modal>
     );
