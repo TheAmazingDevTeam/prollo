@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {Modal, ModalHeader, ModalBody, FormGroup, Input, Button} from 'reactstrap';
 
+import Popover from '../Popover/Popover';
 
 class CardModal extends Component {
   state = {
     editing: false,
-    objectName: ''
+    objectName: '',
   };
 
   toggle = () => {
@@ -26,7 +27,7 @@ class CardModal extends Component {
   };
 
   render() {
-    return (
+     return (
       <Modal isOpen={this.props.showModal} toggle={this.props.toggle}>
         <ModalHeader toggle={this.props.toggle}>
           {this.props.card.title}
@@ -47,13 +48,14 @@ class CardModal extends Component {
               />
             </FormGroup>
           ) : <p onClick={this.toggle}>{this.props.card.description}</p>}
-          <Button size="sm" color="secondary" className="my-2" onClick={() => this.onCreateCard(this.state.objectName)}>bearbeiten</Button>
+          <Button size="sm" color="secondary" className="mb-5" onClick={() => this.onCreateCard(this.state.objectName)}>bearbeiten</Button>
           <p>{this.props.card.checklists ? this.props.card.checklists.map(item => item.title) : null}</p>
           <ul>
             {this.props.card.checklists ?
-              Object.values(this.props.card.checklists[0].items).map(i => <li>{i.itemtitle}</li>)
-              : null}
+            Object.values(this.props.card.checklists[0].items).map(i => <li>{i.itemtitle}</li>)
+            : null}
           </ul>
+          <Popover clickedCheck={this.props.clickedCheck} />
         </ModalBody>
       </Modal>
     );

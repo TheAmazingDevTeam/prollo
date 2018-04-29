@@ -14,6 +14,7 @@ class List extends Component {
     modal: false
   };
 
+  // get cards from API
   async componentDidMount() {
     const response = await fetch('https://prollo-8a5a5.firebaseio.com/cards.json');
     const cards = await response.json();
@@ -29,6 +30,7 @@ class List extends Component {
     this.setState({cards: updatedCards});
   };
 
+  // create card
   onCreate = async title => {
     const oldCards = [...this.state.cards];
     const listid = this.props.id;
@@ -51,6 +53,7 @@ class List extends Component {
     this.setState({cards});
   };
 
+  // add card description
   setDescription = async description => {
     const activeCard = {...this.state.activeCard, description};
 
@@ -63,6 +66,29 @@ class List extends Component {
     this.setState({cards, activeCard});
   };
 
+  // add checklist
+  setChecklist = async title => {
+    const oldCards = [...this.state.cards];
+    const activeCard = this.state.activeCard;
+    const response = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists.json`, {
+      method: 'post',
+      body:  JSON.stringify({title})
+    });
+
+    const jsonResponse = await response.json();
+    const card = {
+      id: jsonResponse.name,
+      title
+    };
+
+    const cards = [
+      ...oldCards,
+      card
+    ];
+    this.setState({cards});
+  };
+
+  // set active card and modal status
   toggle = card => {
     this.setState({
       modal: !this.state.modal,
@@ -83,7 +109,7 @@ class List extends Component {
               )}
             <CollapseButton text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
           </div>
-          <CardModal toggle={this.toggle} showModal={this.state.modal} modal={this.state.modal} card={this.state.activeCard} clicked={this.setDescription} />
+          <CardModal toggle={this.toggle} showModal={this.state.modal} modal={this.state.modal} card={this.state.activeCard} clickedCheck={this.setChecklist} clicked={this.setDescription} />
         </Col>
       );
     }
