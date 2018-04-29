@@ -15,13 +15,12 @@ class PopoverClass extends Component {
 
   onChangeHandler = event => {
     this.setState({objectName: event.target.value});
-    console.log(this.state.objectName);
   };
 
-  // onCreateCheckTitle = objectName => {
-  //   // this.toggle();
-  //   this.props.clickedCheck(objectName);
-  // };
+  onCreateCheckTitle = objectName => {
+    this.toggle();
+    this.props.click(objectName);
+  };
 
   render() {
     return (
@@ -36,7 +35,7 @@ class PopoverClass extends Component {
             type="text"
             onChange={this.onChangeHandler}
             className="my-1" />
-            {/* <Button size="sm" onClick={this.onCreateCheckTitle(this.state.objectName)}>add</Button> */}
+            <Button size="sm" onClick={() => this.onCreateCheckTitle(this.state.objectName)}>add</Button>
           </PopoverBody>
         </Popover>
       </div>

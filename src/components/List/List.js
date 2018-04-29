@@ -109,7 +109,7 @@ class List extends Component {
               )}
             <CollapseButton text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
           </div>
-          <CardModal toggle={this.toggle} showModal={this.state.modal} modal={this.state.modal} card={this.state.activeCard} clickedCheck={this.setChecklist} clicked={this.setDescription} />
+          <CardModal toggle={this.toggle} showModal={this.state.modal} modal={this.state.modal} card={this.state.activeCard} click={this.setChecklist} clicked={this.setDescription} />
         </Col>
       );
     }
