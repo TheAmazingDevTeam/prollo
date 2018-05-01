@@ -25,8 +25,8 @@ class PopoverClass extends Component {
   render() {
     return (
       <div>
-        <Button id="Popover1" size="sm" onClick={this.toggle}>
-          add Checklist
+        <Button className="mt-2" color="light" id="Popover1" size="sm" onClick={this.toggle}>
+          New Checklist
         </Button>
         <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggle}>
           <PopoverHeader>Your Checklist:</PopoverHeader>
@@ -35,7 +35,7 @@ class PopoverClass extends Component {
             type="text"
             onChange={this.onChangeHandler}
             className="my-1" />
-            <Button size="sm" onClick={() => this.onCreateCheckTitle(this.state.objectName)}>add</Button>
+            <Button color="info" size="sm" onClick={() => this.onCreateCheckTitle(this.state.objectName)}>add</Button>
           </PopoverBody>
         </Popover>
       </div>

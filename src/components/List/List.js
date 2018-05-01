@@ -11,7 +11,8 @@ class List extends Component {
   state = {
     cards: null,
     activeCard: {},
-    modal: false
+    modal: false,
+    items: null
   };
 
   // get cards from API
@@ -88,12 +89,47 @@ class List extends Component {
     this.setState({cards});
   };
 
+  // add checklist item title
+  setCheckitem = async itemtitle => {
+    const oldCards = [...this.state.cards];
+    const activeCard = this.state.activeCard;
+    const checklistId = Object.keys(this.state.activeCard.checklists)
+    const response = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists/${checklistId}/items.json`, {
+      method: 'post',
+      body: JSON.stringify({itemtitle})
+    });
+
+    const jsonResponse = await response.json();
+    const card = {
+      id: jsonResponse.name,
+      itemtitle
+    };
+
+    const cards = [
+      ...oldCards,
+      card
+    ];
+    this.setState({cards});
+  };
+
   // set active card and modal status
   toggle = card => {
     this.setState({
       modal: !this.state.modal,
       activeCard: card
     });
+
+    // // get items id
+    // if (this.state.activeCard.checklists) {
+    //   const activeCard = this.state.activeCard;
+    //   const checklistId = Object.getOwnPropertyNames(activeCard.checklists);
+    //   const responseItems = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists/${checklistId}/items.json`);
+    //   const items = await responseItems.json();
+  
+    //   this.setState({items});
+    //   console.log(Object.keys(this.state.items).map(i => i))
+    // }
+
   };
 
   render() {
@@ -105,11 +141,24 @@ class List extends Component {
           <div className="bg-light rounded px-3 py-1" boardid={this.props.boardId} key={this.props.id}>
             <h2 className="h4 my-2">{this.props.listTitle}</h2>
               {this.state.cards.map(card =>
-                card.listid === this.props.id ? <Card card={card} key={card.id} toggled={this.toggle} /> : null
+                card.listid === this.props.id ?
+                <Card card={card} key={card.id}
+                toggled={this.toggle} /> : null
               )}
-            <CollapseButton text="Karte hinzufügen..." classes="" id={this.props.id} clicked={this.onCreate} />
+            <CollapseButton
+              text="Karte hinzufügen..."
+              classes=""
+              id={this.props.id}
+              clicked={this.onCreate} />
           </div>
-          <CardModal toggle={this.toggle} showModal={this.state.modal} modal={this.state.modal} card={this.state.activeCard} click={this.setChecklist} clicked={this.setDescription} />
+          <CardModal
+            toggle={this.toggle}
+            toggled={this.setCheckitem}
+            showModal={this.state.modal}
+            modal={this.state.modal}
+            card={this.state.activeCard}
+            click={this.setChecklist}
+            clicked={this.setDescription} />
         </Col>
       );
     }
