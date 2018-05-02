@@ -23,8 +23,10 @@ class CollapseInput extends Component {
         <Button
           color="info"
           className="my-2"
-          onClick={() => this.props.toggled(this.state.objectName)}
-        >hinzufügen</Button>
+          onClick={() => this.props.clicked(this.state.objectName)}
+        >
+          hinzufügen
+        </Button>
       </div>
     );
   }
