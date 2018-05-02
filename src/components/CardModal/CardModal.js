@@ -9,6 +9,7 @@ class CardModal extends Component {
 
   render() {
     const res = this.props.card.checklists ? Object.values(this.props.card.checklists)[0].items : null;
+    //this.props.card.checklists ? console.log(this.props.card.checklists) : null;
 
      return (
       <Modal isOpen={this.props.showModal} toggle={this.props.toggle}>

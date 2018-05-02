@@ -11,8 +11,7 @@ class List extends Component {
   state = {
     cards: null,
     activeCard: {},
-    modal: false,
-    items: null
+    modal: false
   };
 
   // get cards from API
@@ -27,30 +26,8 @@ class List extends Component {
         ...cards[key]
       });
     };
+
     this.setState({cards: updatedCards});
-  };
-
-  // create card
-  onCreate = async title => {
-    const oldCards = [...this.state.cards];
-    const listid = this.props.id;
-    const response = await fetch('https://prollo-8a5a5.firebaseio.com/cards.json', {
-      method: 'post',
-      body:  JSON.stringify({title, listid})
-    });
-
-    const jsonResponse = await response.json();
-    const card = {
-      id: jsonResponse.name,
-      listid,
-      title
-    };
-
-    const cards = [
-      ...oldCards,
-      card
-    ];
-    this.setState({cards});
   };
 
   // add card description
@@ -119,7 +96,8 @@ class List extends Component {
               text="Karte hinzufügen..."
               classes=""
               id={this.props.id}
-              clicked={this.onCreate} />
+              clicked={this.onCreate}
+            />
           </div>
           <CardModal
             toggle={this.toggle}
