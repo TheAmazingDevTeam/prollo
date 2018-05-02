@@ -27,7 +27,6 @@ class List extends Component {
         ...cards[key]
       });
     };
-
     this.setState({cards: updatedCards});
   };
 
@@ -69,47 +68,30 @@ class List extends Component {
 
   // add checklist
   setChecklist = async title => {
-    const oldCards = [...this.state.cards];
     const activeCard = this.state.activeCard;
-    const response = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists.json`, {
+    await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists.json`, {
       method: 'post',
       body:  JSON.stringify({title})
     });
+    const response = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`);
+    const newActiveCard = await response.json();
 
-    const jsonResponse = await response.json();
-    const card = {
-      id: jsonResponse.name,
-      title
-    };
-
-    const cards = [
-      ...oldCards,
-      card
-    ];
-    this.setState({cards});
+    this.setState({activeCard: newActiveCard});
   };
 
   // add checklist item title
   setCheckitem = async itemtitle => {
-    const oldCards = [...this.state.cards];
-    const activeCard = this.state.activeCard;
+    const activeCard = {...this.state.activeCard};
     const checklistId = Object.keys(this.state.activeCard.checklists)
-    const response = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists/${checklistId}/items.json`, {
+    await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists/${checklistId}/items.json`, {
       method: 'post',
-      body: JSON.stringify({itemtitle})
+      body: JSON.stringify({itemtitle, completed: false})
     });
 
-    const jsonResponse = await response.json();
-    const card = {
-      id: jsonResponse.name,
-      itemtitle
-    };
+    const response = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`);
+    const newActiveCard = await response.json();
 
-    const cards = [
-      ...oldCards,
-      card
-    ];
-    this.setState({cards});
+    this.setState({activeCard: newActiveCard});
   };
 
   // set active card and modal status
@@ -118,23 +100,11 @@ class List extends Component {
       modal: !this.state.modal,
       activeCard: card
     });
-
-    // // get items id
-    // if (this.state.activeCard.checklists) {
-    //   const activeCard = this.state.activeCard;
-    //   const checklistId = Object.getOwnPropertyNames(activeCard.checklists);
-    //   const responseItems = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists/${checklistId}/items.json`);
-    //   const items = await responseItems.json();
-  
-    //   this.setState({items});
-    //   console.log(Object.keys(this.state.items).map(i => i))
-    // }
-
   };
 
   render() {
     let cards = <p>Loading...</p>;
-    
+
     if (this.state.cards) {
       cards = (
         <Col xs="2">

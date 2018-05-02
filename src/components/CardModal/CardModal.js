@@ -20,7 +20,7 @@ class CardModal extends Component {
             <Col xs="8">
               <CardDescription card={this.props.card} clicked={this.props.clicked} />
               <Progress className="my-3" color="info" value="75" />
-              <b>{this.props.card.checklists ? Object.values(this.props.card.checklists).map(i => i.title) : null}</b>
+              {this.props.card.checklists ? Object.values(this.props.card.checklists).map(i => <b>{i.title}</b>) : null}
               <ul>
                 {res ?
                 Object.values(res).map(i => <li>{i.itemtitle}</li>)

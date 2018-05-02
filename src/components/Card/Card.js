@@ -5,7 +5,7 @@ class CardComponent extends Component {
   render() {
     return (
       <div onClick={() => this.props.toggled(this.props.card)}>
-        <Card xs="2" className="mb-3">
+        <Card xs="2" className="mb-3" style={{cursor: 'pointer'}}>
           <CardBody>
             <h5>{this.props.card.title}</h5>
           </CardBody>
