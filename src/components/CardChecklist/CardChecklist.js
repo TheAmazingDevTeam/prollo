@@ -9,7 +9,8 @@ class CardChecklist extends Component {
 
   toggle = () => {
     this.setState({
-      editing: !this.state.editing
+      editing: !this.state.editing,
+      itemName: ''
     });
   };
 
@@ -28,13 +29,13 @@ class CardChecklist extends Component {
     return (
       <div>
         <u className="ml-4" onClick={this.toggle} style={{cursor: 'pointer'}}>
-          {this.props.card.checklists ?
-            this.state.editing ?
-            'Neues Element ..' :
-            'Element hinzufügen'
+          {this.props.checklists
+            ? this.state.editing
+              ? 'Neues Element ..'
+              : 'Element hinzufügen'
             : null}
         </u>
-        {this.state.editing ?
+        {this.state.editing ? (
           <FormGroup size="sm" className="mt-3">
             <Input
               type="text"
@@ -46,9 +47,11 @@ class CardChecklist extends Component {
               color="info"
               className="my-2"
               onClick={() => this.onCreateItem(this.state.itemName)}
-            >add</Button>
+            >
+              add
+            </Button>
           </FormGroup>
-        : null}
+        ) : null}
       </div>
     );
   }

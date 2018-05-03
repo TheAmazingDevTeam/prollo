@@ -7,9 +7,17 @@ import CardChecklist from '../CardChecklist/CardChecklist';
 
 class CardModal extends Component {
   render() {
-    const checklistid = this.props.card.checklists
-      ? Object.keys(this.props.card.checklists).toString()
+    let checklistid = this.props.checklists
+      ? this.props.checklists.map(
+          list => (list.cardid === this.props.card.id ? list.id : null)
+        )
       : null;
+
+    checklistid = checklistid.filter(id => id != null);
+    checklistid = checklistid.toString();
+
+    // console.log
+    this.props.items ? console.log(checklistid) : null;
 
     return (
       <Modal isOpen={this.props.showModal} toggle={this.props.toggle}>
@@ -24,10 +32,13 @@ class CardModal extends Component {
                 clicked={this.props.clicked}
               />
               <Progress className="my-3" color="info" value="75" />
-              {this.props.card.checklists
-                ? Object.values(this.props.card.checklists).map(i => (
-                    <b>{i.title}</b>
-                  ))
+              {this.props.checklists
+                ? this.props.checklists.map(
+                    list =>
+                      list.cardid === this.props.card.id ? (
+                        <b key={list.id}>{list.title}</b>
+                      ) : null
+                  )
                 : null}
               <ul>
                 {this.props.items
@@ -42,6 +53,7 @@ class CardModal extends Component {
               <CardChecklist
                 toggled={this.props.toggled}
                 card={this.props.card}
+                checklists={this.props.checklists}
               />
             </Col>
             <Col xs="4" className="text-center">

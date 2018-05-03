@@ -11,7 +11,8 @@ class List extends Component {
     cards: null,
     activeCard: {},
     modal: false,
-    items: []
+    items: [],
+    checklists: []
   };
 
   // get cards items from API
@@ -42,7 +43,23 @@ class List extends Component {
       });
     }
 
-    this.setState({cards: updatedCards, items: updatedItems});
+    const checklistResponse = await fetch(
+      'https://prollo-8a5a5.firebaseio.com/checklists.json'
+    );
+    const checklists = await checklistResponse.json();
+    const updatedChecklists = [];
+
+    for (let key in checklists) {
+      updatedChecklists.push({
+        id: key,
+        ...checklists[key]
+      });
+    }
+    this.setState({
+      cards: updatedCards,
+      items: updatedItems,
+      checklists: updatedChecklists
+    });
   }
 
   // add card description
@@ -65,27 +82,41 @@ class List extends Component {
 
   // add checklist
   setChecklist = async title => {
-    const activeCard = this.state.activeCard;
-    await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards/${
-        activeCard.id
-      }/checklists.json`,
+    let cardid = this.state.activeCard.id;
+    const oldChecklists = [...this.state.checklists];
+    const response = await fetch(
+      'https://prollo-8a5a5.firebaseio.com/checklists.json',
       {
         method: 'post',
-        body: JSON.stringify({title})
+        body: JSON.stringify({title, cardid})
       }
     );
-    const response = await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`
-    );
-    const newActiveCard = await response.json();
 
-    this.setState({activeCard: newActiveCard});
+    const jsonResponse = await response.json();
+    const checklist = {
+      id: jsonResponse.name,
+      title,
+      cardid
+    };
+
+    const checklists = [...oldChecklists, checklist];
+
+    this.setState({checklists});
+
+    // const response = await fetch(
+    //   `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`
+    // );
+    // const newActiveCard = await response.json();
+
+    // this.setState({activeCard: newActiveCard});
   };
 
   // add checklist item title
   setCheckitem = async itemtitle => {
-    let checklistid = Object.keys(this.state.activeCard.checklists).toString();
+    let checklistid = this.state.checklists.map(
+      list => (list.cardid === this.state.activeCard.id ? list.id : null)
+    );
+    checklistid = checklistid.toString();
     const oldItems = [...this.state.items];
     const response = await fetch(
       'https://prollo-8a5a5.firebaseio.com/items.json',
@@ -150,6 +181,7 @@ class List extends Component {
             click={this.setChecklist}
             clicked={this.setDescription}
             items={this.state.items}
+            checklists={this.state.checklists}
           />
         </Col>
       );
