@@ -62,6 +62,29 @@ class List extends Component {
     });
   }
 
+  // create card
+  onCreate = async title => {
+    const oldCards = [...this.state.cards];
+    const listid = this.props.id;
+    const response = await fetch(
+      'https://prollo-8a5a5.firebaseio.com/cards.json',
+      {
+        method: 'post',
+        body: JSON.stringify({title, listid})
+      }
+    );
+
+    const jsonResponse = await response.json();
+    const card = {
+      id: jsonResponse.name,
+      listid,
+      title
+    };
+
+    const cards = [...oldCards, card];
+    this.setState({cards});
+  };
+
   // add card description
   setDescription = async description => {
     const activeCard = {...this.state.activeCard, description};
