@@ -130,7 +130,8 @@ class List extends Component {
   // add checklist item title
   setCheckitem = async itemtitle => {
     const checklist = this.state.checklists.find(
-      checklist => checklist.cardid === this.state.activeCard.id
+      // schlechte lösung, checklist.cardid ist nicht die aktive list
+      checklist => this.props.checklist.cardid === this.state.activeCard.id
     );
     const oldItems = [...this.state.items];
     const response = await fetch(

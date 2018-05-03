@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Modal, ModalHeader, ModalBody, Progress, Row, Col} from 'reactstrap';
 
 import Popover from '../Popover/Popover';
@@ -6,19 +6,26 @@ import CardDescription from '../CardDescription/CardDescriptrion';
 import CardChecklist from '../CardChecklist/CardChecklist';
 
 class CardModal extends Component {
-  getChecklists = () =>
+  getChecklists = checklist =>
     this.props.checklists.map(
       list =>
         list.cardid === this.props.card.id ? (
-          <b key={list.id}>{list.title}</b>
-        ) : null
-    );
-
-  getItems = checklist =>
-    this.props.items.map(
-      item =>
-        item.checklistid === checklist.id ? (
-          <li key={item.id}>{item.itemtitle}</li>
+          <Fragment key={list.id}>
+            <b>{list.title}</b>
+            <ul>
+              {this.props.items.map(
+                item =>
+                  item.checklistid === list.id ? (
+                    <li key={item.id}>{item.itemtitle}</li>
+                  ) : null
+              )}
+            </ul>
+            <CardChecklist
+              toggled={this.props.toggled}
+              card={this.props.card}
+              checklists={this.props.checklists}
+            />
+          </Fragment>
         ) : null
     );
 
@@ -40,13 +47,7 @@ class CardModal extends Component {
                 clicked={this.props.clicked}
               />
               <Progress className="my-3" color="info" value="75" />
-              {this.getChecklists()}
-              {checklist ? this.getItems(checklist) : null}
-              <CardChecklist
-                toggled={this.props.toggled}
-                card={this.props.card}
-                checklists={this.props.checklists}
-              />
+              {this.getChecklists(checklist)}
             </Col>
             <Col xs="4" className="text-center">
               <b>Hinzufügen</b>
