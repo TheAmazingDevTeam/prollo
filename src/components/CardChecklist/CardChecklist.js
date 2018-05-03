@@ -7,6 +7,11 @@ class CardChecklist extends Component {
     editing: false
   };
 
+  getInput = () =>
+    this.props.checklists.map(
+      list => (list.cardid === this.props.card.id ? 'Element hinzufügen' : null)
+    );
+
   toggle = () => {
     this.setState({
       editing: !this.state.editing,
@@ -29,11 +34,7 @@ class CardChecklist extends Component {
     return (
       <div>
         <u className="ml-4" onClick={this.toggle} style={{cursor: 'pointer'}}>
-          {this.props.checklists
-            ? this.state.editing
-              ? 'Neues Element ..'
-              : 'Element hinzufügen'
-            : null}
+          {this.getInput()}
         </u>
         {this.state.editing ? (
           <FormGroup size="sm" className="mt-3">

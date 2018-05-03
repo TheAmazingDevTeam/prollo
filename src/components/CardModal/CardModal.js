@@ -17,17 +17,15 @@ class CardModal extends Component {
   getItems = checklist =>
     this.props.items.map(
       item =>
-        item.checklistid === checklist.id ? <li key={item.id}>test</li> : null
+        item.checklistid === checklist.id ? (
+          <li key={item.id}>{item.itemtitle}</li>
+        ) : null
     );
 
   render() {
     const checklist = this.props.checklists.find(
       checklist => checklist.cardid === this.props.card.id
     );
-    checklist ? console.log(checklist.id) : null;
-    checklist
-      ? console.log(this.props.items.map(item => item.checklistid))
-      : null;
 
     return (
       <Modal isOpen={this.props.showModal} toggle={this.props.toggle}>

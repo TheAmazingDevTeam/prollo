@@ -129,16 +129,19 @@ class List extends Component {
 
   // add checklist item title
   setCheckitem = async itemtitle => {
-    let checklistid = this.state.checklists.map(
-      list => (list.cardid === this.state.activeCard.id ? list.id : null)
+    const checklist = this.state.checklists.find(
+      checklist => checklist.cardid === this.state.activeCard.id
     );
-    checklistid = checklistid.toString();
     const oldItems = [...this.state.items];
     const response = await fetch(
       'https://prollo-8a5a5.firebaseio.com/items.json',
       {
         method: 'post',
-        body: JSON.stringify({itemtitle, completed: false, checklistid})
+        body: JSON.stringify({
+          itemtitle,
+          completed: false,
+          checklistid: checklist.id
+        })
       }
     );
 
@@ -147,7 +150,7 @@ class List extends Component {
       id: jsonResponse.name,
       itemtitle,
       completed: false,
-      checklistid
+      checklistid: checklist.id
     };
 
     const items = [...oldItems, item];
