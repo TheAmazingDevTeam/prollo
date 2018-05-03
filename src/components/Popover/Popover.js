@@ -17,9 +17,9 @@ class PopoverClass extends Component {
     this.setState({objectName: event.target.value});
   };
 
-  onCreateCheckTitle = objectName => {
+  onCreateCheckTitle = () => {
     this.toggle();
-    this.props.click(objectName);
+    this.props.click(this.props.cardId, this.state.objectName);
   };
 
   render() {
@@ -50,7 +50,7 @@ class PopoverClass extends Component {
             <Button
               color="info"
               size="sm"
-              onClick={() => this.onCreateCheckTitle(this.state.objectName)}
+              onClick={() => this.onCreateCheckTitle()}
             >
               add
             </Button>

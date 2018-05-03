@@ -4,61 +4,24 @@ import {withRouter} from 'react-router-dom';
 
 import CollapseButton from '../CollapseButton/CollapseButton';
 import Card from '../Card/Card';
-import CardModal from '../CardModal/CardModal';
+import {mapObjectToArray} from '../../utils';
 
 class List extends Component {
   state = {
-    cards: null,
-    activeCard: {},
-    modal: false,
-    items: [],
-    checklists: []
+    cards: null
   };
 
   // get cards items from API
   async componentDidMount() {
     const response = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/cards.json'
+      `https://prollo-8a5a5.firebaseio.com/cards.json?orderBy="listid"&equalTo="${
+        this.props.id
+      }"`
     );
     const cards = await response.json();
-    const updatedCards = [];
 
-    for (let key in cards) {
-      updatedCards.push({
-        id: key,
-        ...cards[key]
-      });
-    }
-
-    const itemResponse = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/items.json'
-    );
-    const items = await itemResponse.json();
-    const updatedItems = [];
-
-    for (let key in items) {
-      updatedItems.push({
-        id: key,
-        ...items[key]
-      });
-    }
-
-    const checklistResponse = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/checklists.json'
-    );
-    const checklists = await checklistResponse.json();
-    const updatedChecklists = [];
-
-    for (let key in checklists) {
-      updatedChecklists.push({
-        id: key,
-        ...checklists[key]
-      });
-    }
     this.setState({
-      cards: updatedCards,
-      items: updatedItems,
-      checklists: updatedChecklists
+      cards: mapObjectToArray(cards)
     });
   }
 
@@ -104,28 +67,6 @@ class List extends Component {
   };
 
   // add checklist
-  setChecklist = async title => {
-    let cardid = this.state.activeCard.id;
-    const oldChecklists = [...this.state.checklists];
-    const response = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/checklists.json',
-      {
-        method: 'post',
-        body: JSON.stringify({title, cardid})
-      }
-    );
-
-    const jsonResponse = await response.json();
-    const checklist = {
-      id: jsonResponse.name,
-      title,
-      cardid
-    };
-
-    const checklists = [...oldChecklists, checklist];
-
-    this.setState({checklists});
-  };
 
   // add checklist item title
   setCheckitem = async itemtitle => {
@@ -159,54 +100,34 @@ class List extends Component {
     this.setState({items});
   };
 
-  // set active card and modal status
-  toggle = card => {
-    this.setState({
-      modal: !this.state.modal,
-      activeCard: card
-    });
+  renderCards = () => {
+    if (!this.state.cards) {
+      return <p>Loading...</p>;
+    }
+
+    return this.state.cards.map(card => (
+      <Card card={card} key={card.id} toggleModal={this.props.toggleModal} />
+    ));
   };
 
   render() {
-    let cards = <p>Loading...</p>;
-
-    if (this.state.cards) {
-      cards = (
-        <Col xs="2">
-          <div
-            className="bg-light rounded px-3 py-1"
-            boardid={this.props.boardId}
-            key={this.props.id}
-          >
-            <h2 className="h4 my-2">{this.props.listTitle}</h2>
-            {this.state.cards.map(
-              card =>
-                card.listid === this.props.id ? (
-                  <Card card={card} key={card.id} toggled={this.toggle} />
-                ) : null
-            )}
-            <CollapseButton
-              text="Karte hinzufügen..."
-              classes=""
-              id={this.props.id}
-              clicked={this.onCreate}
-            />
-          </div>
-          <CardModal
-            toggle={this.toggle}
-            toggled={this.setCheckitem}
-            showModal={this.state.modal}
-            modal={this.state.modal}
-            card={this.state.activeCard}
-            click={this.setChecklist}
-            clicked={this.setDescription}
-            items={this.state.items}
-            checklists={this.state.checklists}
+    return (
+      <Col xs="2">
+        <div
+          className="bg-light rounded px-3 py-1"
+          boardid={this.props.boardId}
+          key={this.props.id}
+        >
+          <h2 className="h4 my-2">{this.props.listTitle}</h2>
+          {this.renderCards()}
+          <CollapseButton
+            text="Karte hinzufügen..."
+            id={this.props.id}
+            clicked={this.onCreate}
           />
-        </Col>
-      );
-    }
-    return cards;
+        </div>
+      </Col>
+    );
   }
 }
 

@@ -4,28 +4,25 @@ import {withRouter} from 'react-router-dom';
 
 import List from '../../components/List/List';
 import AddList from '../../components/AddList/AddList';
+import CardModal from '../../components/CardModal/CardModal';
+import {mapObjectToArray} from '../../utils';
 
 class Board extends Component {
   state = {
-    lists: [],
-    activeBoard: null
+    lists: null,
+    activeBoard: null,
+    activeCard: null,
+    showModal: false
   };
 
   async componentDidMount() {
+    const activeBoardId = this.props.match.params.id;
+
     const response = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/lists.json'
+      `https://prollo-8a5a5.firebaseio.com/lists.json?orderBy="boardid"&equalTo="${activeBoardId}"`
     );
     const lists = await response.json();
-    const updatedLists = [];
 
-    for (let key in lists) {
-      updatedLists.push({
-        id: key,
-        ...lists[key]
-      });
-    }
-
-    const activeBoardId = this.props.match.params.id;
     const activeBoardResponse = await fetch(
       `https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`
     );
@@ -33,7 +30,7 @@ class Board extends Component {
 
     this.setState({
       activeBoard: board,
-      lists: updatedLists
+      lists: mapObjectToArray(lists)
     });
   }
 
@@ -72,36 +69,80 @@ class Board extends Component {
     this.setState({lists});
   };
 
-  render() {
-    let boards = <p>Loading...</p>;
+  addChecklist = async (id, checklistTitle) => {
+    // TODO: API Request
 
-    if (this.state.activeBoard) {
-      boards = (
-        <div>
-          <Container fluid>
-            <h1 className="h3 my-4">{this.state.activeBoard.title}</h1>
-            <Row>
-              {this.state.lists.map(
-                list =>
-                  list.boardid === this.props.match.params.id ? (
-                    <List
-                      listTitle={list.title}
-                      key={list.id}
-                      id={list.id}
-                      boardid={list.boardid}
-                    />
-                  ) : null
-              )}
-              <AddList
-                clicked={this.onCreateList}
-                id={this.state.lists.length}
-              />
-            </Row>
-          </Container>
-        </div>
+    this.setState(prevState => ({
+      activeCard: {
+        ...prevState.activeCard,
+        checklists: [
+          {
+            title: checklistTitle
+          }
+        ]
+      }
+    }));
+  };
+
+  renderLists = () => {
+    if (!this.state.lists) {
+      return <p>Loading...</p>;
+    }
+
+    return this.state.lists.map(list => (
+      <List
+        listTitle={list.title}
+        key={list.id}
+        id={list.id}
+        boardid={list.boardid}
+        toggleModal={this.toggleModal}
+      />
+    ));
+  };
+
+  renderTitle = () => {
+    if (!this.state.activeBoard) {
+      return <p>Loading...</p>;
+    }
+
+    return <h1 className="h3 my-4">{this.state.activeBoard.title}</h1>;
+  };
+
+  renderModal = () => {
+    if (this.state.activeCard) {
+      return (
+        <CardModal
+          card={this.state.activeCard}
+          toggleModal={this.toggleModal}
+          showModal={this.state.showModal}
+          addChecklist={this.addChecklist}
+        />
       );
     }
-    return boards;
+  };
+
+  setActiveCard = card => {
+    this.setState({activeCard: card});
+  };
+
+  toggleModal = card => {
+    this.setActiveCard(card);
+    this.setState({showModal: !this.state.showModal});
+  };
+
+  render() {
+    return (
+      <div>
+        <Container fluid>
+          {this.renderTitle()}
+          <Row>
+            {this.renderLists()}
+            <AddList clicked={this.onCreateList} />
+          </Row>
+        </Container>
+        {this.renderModal()}
+      </div>
+    );
   }
 }
 
