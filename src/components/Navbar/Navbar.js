@@ -12,11 +12,13 @@ const navbar = props => (
       </Col>
       <Col xs="2">
         <FormGroup>
-        <Input />
+          <Input />
         </FormGroup>
       </Col>
       <Col xs="6" className="text-center">
-        <Link className="navbar-brand" to="/">Prollo</Link>
+        <Link className="navbar-brand" to="/">
+          Prollo
+        </Link>
       </Col>
     </Row>
   </Navbar>

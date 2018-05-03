@@ -12,7 +12,9 @@ class Board extends Component {
   };
 
   async componentDidMount() {
-    const response = await fetch('https://prollo-8a5a5.firebaseio.com/lists.json');
+    const response = await fetch(
+      'https://prollo-8a5a5.firebaseio.com/lists.json'
+    );
     const lists = await response.json();
     const updatedLists = [];
 
@@ -24,32 +26,39 @@ class Board extends Component {
     }
 
     const activeBoardId = this.props.match.params.id;
-    const activeBoardResponse = await fetch(`https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`);
+    const activeBoardResponse = await fetch(
+      `https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`
+    );
     const board = await activeBoardResponse.json();
 
     this.setState({
       activeBoard: board,
       lists: updatedLists
     });
-  };
+  }
 
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.location !== this.props.location) {
       const activeBoardId = this.props.match.params.id;
-      const activeBoardResponse = await fetch(`https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`);
+      const activeBoardResponse = await fetch(
+        `https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`
+      );
       const board = await activeBoardResponse.json();
 
       this.setState({activeBoard: board});
     }
-  };
+  }
 
   onCreateList = async title => {
     const oldLists = [...this.state.lists];
     const boardid = this.props.match.params.id;
-    const response = await fetch('https://prollo-8a5a5.firebaseio.com/lists.json', {
-      method: 'post',
-      body: JSON.stringify({title, boardid})
-    });
+    const response = await fetch(
+      'https://prollo-8a5a5.firebaseio.com/lists.json',
+      {
+        method: 'post',
+        body: JSON.stringify({title, boardid})
+      }
+    );
 
     const jsonResponse = await response.json();
     const list = {
@@ -58,10 +67,7 @@ class Board extends Component {
       title
     };
 
-    const lists = [
-      ...oldLists,
-      list
-    ]
+    const lists = [...oldLists, list];
 
     this.setState({lists});
   };
@@ -75,10 +81,21 @@ class Board extends Component {
           <Container fluid>
             <h1 className="h3 my-4">{this.state.activeBoard.title}</h1>
             <Row>
-              {this.state.lists.map(list =>
-                list.boardid === this.props.match.params.id ? <List listTitle={list.title} key={list.id} id={list.id} boardid={list.boardid} /> : null
+              {this.state.lists.map(
+                list =>
+                  list.boardid === this.props.match.params.id ? (
+                    <List
+                      listTitle={list.title}
+                      key={list.id}
+                      id={list.id}
+                      boardid={list.boardid}
+                    />
+                  ) : null
               )}
-            <AddList clicked={this.onCreateList} id={this.state.lists.length} />
+              <AddList
+                clicked={this.onCreateList}
+                id={this.state.lists.length}
+              />
             </Row>
           </Container>
         </div>

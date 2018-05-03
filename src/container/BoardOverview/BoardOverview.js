@@ -24,7 +24,11 @@ class BoardOverview extends Component {
             <CreateBoard clicked={this.toggle} />
           </Col>
         </Row>
-        <CreateBoardModal toggle={this.toggle} showModal={this.state.modal} create={this.props.onCreate} />
+        <CreateBoardModal
+          toggle={this.toggle}
+          showModal={this.state.modal}
+          create={this.props.onCreate}
+        />
       </Container>
     );
   }

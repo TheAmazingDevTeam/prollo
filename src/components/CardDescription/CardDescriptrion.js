@@ -20,7 +20,7 @@ class CardDescription extends Component {
     this.setState({objectName: event.target.value});
     this.setState({editing: true});
   };
-  
+
   // description button, sends description
   onCreateCard = objectName => {
     this.toggle();
@@ -30,10 +30,14 @@ class CardDescription extends Component {
   render() {
     return (
       <div>
-        <u onClick={this.toggle} className={this.props.classes} style={{cursor: 'pointer'}}>
-          {this.props.card.description 
-          ? 'Beschreibung bearbeiten:' 
-          : 'Beschreibung hinzufügen:'}
+        <u
+          onClick={this.toggle}
+          className={this.props.classes}
+          style={{cursor: 'pointer'}}
+        >
+          {this.props.card.description
+            ? 'Beschreibung bearbeiten:'
+            : 'Beschreibung hinzufügen:'}
         </u>
         {this.state.editing || !this.props.card.description ? (
           <FormGroup size="md">
@@ -43,9 +47,19 @@ class CardDescription extends Component {
               onChange={this.onChangeHandler}
               className="my-3"
             />
-            <Button size="sm" color="info" onClick={() => this.onCreateCard(this.state.objectName)}>add</Button>
+            <Button
+              size="sm"
+              color="info"
+              onClick={() => this.onCreateCard(this.state.objectName)}
+            >
+              add
+            </Button>
           </FormGroup>
-        ) : <p onClick={this.toggle} style={{cursor: 'pointer'}}>{this.props.card.description}</p>}
+        ) : (
+          <p onClick={this.toggle} style={{cursor: 'pointer'}}>
+            {this.props.card.description}
+          </p>
+        )}
       </div>
     );
   }
