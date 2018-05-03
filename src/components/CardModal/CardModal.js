@@ -6,18 +6,28 @@ import CardDescription from '../CardDescription/CardDescriptrion';
 import CardChecklist from '../CardChecklist/CardChecklist';
 
 class CardModal extends Component {
+  getChecklists = () =>
+    this.props.checklists.map(
+      list =>
+        list.cardid === this.props.card.id ? (
+          <b key={list.id}>{list.title}</b>
+        ) : null
+    );
+
+  getItems = checklist =>
+    this.props.items.map(
+      item =>
+        item.checklistid === checklist.id ? <li key={item.id}>test</li> : null
+    );
+
   render() {
-    let checklistid = this.props.checklists
-      ? this.props.checklists.map(
-          list => (list.cardid === this.props.card.id ? list.id : null)
-        )
+    const checklist = this.props.checklists.find(
+      checklist => checklist.cardid === this.props.card.id
+    );
+    checklist ? console.log(checklist.id) : null;
+    checklist
+      ? console.log(this.props.items.map(item => item.checklistid))
       : null;
-
-    checklistid = checklistid.filter(id => id != null);
-    checklistid = checklistid.toString();
-
-    // console.log
-    this.props.items ? console.log(checklistid) : null;
 
     return (
       <Modal isOpen={this.props.showModal} toggle={this.props.toggle}>
@@ -32,24 +42,8 @@ class CardModal extends Component {
                 clicked={this.props.clicked}
               />
               <Progress className="my-3" color="info" value="75" />
-              {this.props.checklists
-                ? this.props.checklists.map(
-                    list =>
-                      list.cardid === this.props.card.id ? (
-                        <b key={list.id}>{list.title}</b>
-                      ) : null
-                  )
-                : null}
-              <ul>
-                {this.props.items
-                  ? this.props.items.map(
-                      item =>
-                        item.checklistid === checklistid ? (
-                          <li key={item.id}>{item.itemtitle}</li>
-                        ) : null
-                    )
-                  : null}
-              </ul>
+              {this.getChecklists()}
+              {checklist ? this.getItems(checklist) : null}
               <CardChecklist
                 toggled={this.props.toggled}
                 card={this.props.card}

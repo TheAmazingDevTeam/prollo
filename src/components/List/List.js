@@ -102,13 +102,6 @@ class List extends Component {
     const checklists = [...oldChecklists, checklist];
 
     this.setState({checklists});
-
-    // const response = await fetch(
-    //   `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`
-    // );
-    // const newActiveCard = await response.json();
-
-    // this.setState({activeCard: newActiveCard});
   };
 
   // add checklist item title
