@@ -4,7 +4,7 @@ import {Button, Popover, PopoverHeader, PopoverBody, Input} from 'reactstrap';
 class PopoverClass extends Component {
   state = {
     popoverOpen: false,
-    objectName: ''
+    input: ''
   };
 
   toggle = () => {
@@ -14,12 +14,12 @@ class PopoverClass extends Component {
   };
 
   onChangeHandler = event => {
-    this.setState({objectName: event.target.value});
+    this.setState({input: event.target.value});
   };
 
   onCreateCheckTitle = () => {
     this.toggle();
-    this.props.click(this.props.cardId, this.state.objectName);
+    this.props.clicked(this.state.input);
   };
 
   render() {

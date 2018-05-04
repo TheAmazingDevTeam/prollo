@@ -15,6 +15,9 @@ const cardModal = props => {
             <CardDescription card={props.card} clicked={props.addDescription} />
             <Progress className="my-3" color="info" value="75" />
           </Col>
+          <Col xs="4">
+            <Popover clicked={props.addChecklist} />
+          </Col>
         </Row>
       </ModalBody>
     </Modal>

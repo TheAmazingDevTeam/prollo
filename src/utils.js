@@ -1,5 +1,7 @@
 export const mapObjectToArray = object =>
-  Object.keys(object).map(key => ({
-    id: key,
-    ...object[key]
-  }));
+  object !== null
+    ? Object.keys(object).map(key => ({
+        id: key,
+        ...object[key]
+      }))
+    : [];
