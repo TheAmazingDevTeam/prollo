@@ -30,7 +30,7 @@ class Checklist extends Component {
     }
 
     return this.props.checklist.items.map(item => (
-      <ListGroupItem
+      <li
         style={{
           textDecoration: item.completed ? 'line-through' : ''
         }}
@@ -38,20 +38,25 @@ class Checklist extends Component {
         key={item.id}
       >
         {item.name}
-      </ListGroupItem>
+      </li>
     ));
   };
 
   render() {
     return (
       <Fragment>
-        <h3 className="mt-3">{this.props.checklist.title}</h3>
+        <h5 className="mt-3">{this.props.checklist.title}</h5>
         <Row className="mb-3">
           <Col>
-            <Input value={this.state.input} onChange={this.onInputChange} />
+            <Input
+              size="sm"
+              value={this.state.input}
+              onChange={this.onInputChange}
+            />
           </Col>
           <Col>
             <Button
+              size="sm"
               onClick={() =>
                 this.props.addItemToChecklist(
                   this.props.checklist.id,
@@ -69,7 +74,7 @@ class Checklist extends Component {
           color={this.calculatePercentage() === 100 ? 'success' : 'info'}
           value={this.calculatePercentage()}
         />
-        <ListGroup>{this.renderChecklistItems()}</ListGroup>
+        <ul>{this.renderChecklistItems()}</ul>
       </Fragment>
     );
   }
