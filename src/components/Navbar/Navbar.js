@@ -1,17 +1,14 @@
 import React from 'react';
-import {Navbar, Row, Col} from 'reactstrap';
-import {Link} from 'react-router-dom';
+import {Navbar} from 'reactstrap';
+import {Link, withRouter} from 'react-router-dom';
 
 const navbar = props => (
   <Navbar color="light" light expand>
-    <Row className="w-100">
-      <Col xs="6" className="text-center">
-        <Link className="navbar-brand" to="/">
-          Prollo
-        </Link>
-      </Col>
-    </Row>
+    {props.location.pathname !== '/' ? <Link to="/">⬅</Link> : null}
+    <Link className="mx-auto navbar-brand" to="/">
+      Prollo
+    </Link>
   </Navbar>
 );
 
-export default navbar;
+export default withRouter(navbar);
