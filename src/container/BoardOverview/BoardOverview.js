@@ -47,6 +47,10 @@ class BoardOverview extends Component {
     this.setState({modal: !this.state.modal});
   };
 
+  setActiveBoard = board => {
+    this.setState({activeBoard: board});
+  };
+
   render() {
     return (
       <Container>
