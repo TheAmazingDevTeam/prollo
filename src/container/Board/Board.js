@@ -4,7 +4,6 @@ import {withRouter} from 'react-router-dom';
 
 import List from '../../components/List/List';
 import AddList from '../../components/AddList/AddList';
-import CardModal from '../../components/CardModal/CardModal';
 import {mapObjectToArray} from '../../utils';
 
 class Board extends Component {

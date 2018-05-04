@@ -4,11 +4,13 @@ import {withRouter} from 'react-router-dom';
 
 import CollapseButton from '../CollapseButton/CollapseButton';
 import Card from '../Card/Card';
+import CardModal from '../CardModal/CardModal';
 import {mapObjectToArray} from '../../utils';
 
 class List extends Component {
   state = {
-    cards: null
+    cards: null,
+    modal: false
   };
 
   async componentDidMount() {
@@ -24,78 +26,32 @@ class List extends Component {
 
   onCreate = async title => {
     const oldCards = [...this.state.cards];
-    const listId = this.props.id;
+    const listId = this.props.list.id;
+
+    const card = {
+      title,
+      listId,
+      checklists: []
+    };
+
     const response = await fetch(
       'https://prollo-8a5a5.firebaseio.com/cards.json',
       {
         method: 'post',
-        body: JSON.stringify({
-          title,
-          listId,
-          checklists: []
-        })
+        body: JSON.stringify({...card})
       }
     );
 
     const jsonResponse = await response.json();
-    const card = {
-      id: jsonResponse.name,
-      listId,
-      title,
-      checklists: []
-    };
 
-    const cards = [...oldCards, card];
+    const cards = [...oldCards, {...card, id: jsonResponse.name}];
     this.setState({cards});
   };
 
-  // add card description
-  setDescription = async description => {
-    const activeCard = {...this.state.activeCard, description};
-
-    await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
-      {
-        method: 'put',
-        body: JSON.stringify(activeCard)
-      }
-    );
-
-    const cards = this.state.cards.map(
-      card => (card.id === activeCard.id ? activeCard : card)
-    );
-    this.setState({cards, activeCard});
-  };
-
-  setCheckitem = async itemtitle => {
-    const checklist = this.state.checklists.find(
-      // schlechte lösung, checklist.cardid ist nicht die aktive list
-      checklist => this.props.checklist.cardid === this.state.activeCard.id
-    );
-    const oldItems = [...this.state.items];
-    const response = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/items.json',
-      {
-        method: 'post',
-        body: JSON.stringify({
-          itemtitle,
-          completed: false,
-          checklistid: checklist.id
-        })
-      }
-    );
-
-    const jsonResponse = await response.json();
-    const item = {
-      id: jsonResponse.name,
-      itemtitle,
-      completed: false,
-      checklistid: checklist.id
-    };
-
-    const items = [...oldItems, item];
-
-    this.setState({items});
+  toggleModal = () => {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
   };
 
   renderCards = () => {
@@ -104,18 +60,14 @@ class List extends Component {
     }
 
     return this.state.cards.map(card => (
-      <Card card={card} key={card.id} toggleModal={this.props.toggleModal} />
+      <Card toggle={this.toggleModal} card={card} key={card.id} />
     ));
   };
 
   render() {
     return (
       <Col xs="2">
-        <div
-          className="bg-light rounded px-3 py-1"
-          boardid={this.props.boardId}
-          key={this.props.id}
-        >
+        <div className="bg-light rounded px-3 py-1">
           <h2 className="h4 my-2">{this.props.list.title}</h2>
           {this.renderCards()}
           <CollapseButton
@@ -124,6 +76,7 @@ class List extends Component {
             clicked={this.onCreate}
           />
         </div>
+        <CardModal modal={this.state.modal} toggle={this.toggleModal} />
       </Col>
     );
   }
