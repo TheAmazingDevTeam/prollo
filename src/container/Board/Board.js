@@ -9,35 +9,27 @@ import {mapObjectToArray} from '../../utils';
 
 class Board extends Component {
   state = {
+    board: null,
     lists: null,
-    cards: null,
-    activeBoard: null,
-    activeCard: null,
-    showModal: false
+    modal: false
   };
 
   async componentDidMount() {
-    const activeBoardId = this.props.match.params.id;
+    const {boardId} = this.props.match.params;
 
-    const cardsResponse = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/cards.json'
+    const boardResponse = await fetch(
+      `https://prollo-8a5a5.firebaseio.com/boards/${boardId}.json`
     );
-    const cards = await cardsResponse.json();
+    const board = await boardResponse.json();
 
-    const response = await fetch(
-      `https://prollo-8a5a5.firebaseio.com/lists.json?orderBy="boardid"&equalTo="${activeBoardId}"`
+    const listsResponse = await fetch(
+      `https://prollo-8a5a5.firebaseio.com/lists.json?orderBy="boardId"&equalTo="${boardId}"`
     );
-    const lists = await response.json();
-
-    const activeBoardResponse = await fetch(
-      `https://prollo-8a5a5.firebaseio.com/boards/${activeBoardId}.json`
-    );
-    const board = await activeBoardResponse.json();
+    const lists = await listsResponse.json();
 
     this.setState({
-      activeBoard: board,
-      lists: mapObjectToArray(lists),
-      cards: mapObjectToArray(cards)
+      board,
+      lists: mapObjectToArray(lists)
     });
   }
 
@@ -49,25 +41,26 @@ class Board extends Component {
       );
       const board = await activeBoardResponse.json();
 
-      this.setState({activeBoard: board});
+      this.setState({board});
     }
   }
 
   onCreateList = async title => {
     const oldLists = [...this.state.lists];
-    const boardid = this.props.match.params.id;
+    const {boardId} = this.props.match.params;
+
     const response = await fetch(
       'https://prollo-8a5a5.firebaseio.com/lists.json',
       {
         method: 'post',
-        body: JSON.stringify({title, boardid})
+        body: JSON.stringify({title, boardId})
       }
     );
 
     const jsonResponse = await response.json();
     const list = {
       id: jsonResponse.name,
-      boardid,
+      boardId,
       title
     };
 
@@ -76,36 +69,15 @@ class Board extends Component {
     this.setState({lists});
   };
 
-  addChecklist = async (id, checklistTitle) => {
-    const card = {
-      ...this.state.activeCard,
-      checklists: [
-        ...this.state.activeCard.checklists,
-        {
-          title: checklistTitle,
-          items: []
-        }
-      ]
-    };
-
-    await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${id}.json`, {
-      method: 'put',
-      body: JSON.stringify({...card})
-    });
-
-    this.setState({activeCard: card});
-  };
-
   renderLists = () => {
     if (!this.state.lists) {
-      return <p>Loading...</p>;
+      return <p>Loading Lists...</p>;
     }
 
     return this.state.lists.map(list => (
       <List
-        listTitle={list.title}
         key={list.id}
-        id={list.id}
+        list={list}
         boardid={list.boardid}
         toggleModal={this.toggleModal}
       />
@@ -113,47 +85,26 @@ class Board extends Component {
   };
 
   renderTitle = () => {
-    if (!this.state.activeBoard) {
+    if (!this.state.board) {
       return <p>Loading...</p>;
     }
 
-    return <h1 className="h3 my-4">{this.state.activeBoard.title}</h1>;
+    return <h1 className="h3 my-4">{this.state.board.title}</h1>;
   };
 
-  renderModal = () => {
-    if (this.state.activeCard) {
-      return (
-        <CardModal
-          card={this.state.activeCard}
-          toggleModal={this.toggleModal}
-          showModal={this.state.showModal}
-          addChecklist={this.addChecklist}
-        />
-      );
-    }
-  };
-
-  setActiveCard = card => {
-    this.setState({activeCard: card});
-  };
-
-  toggleModal = card => {
-    this.setActiveCard(card);
+  toggleModal = () => {
     this.setState({showModal: !this.state.showModal});
   };
 
   render() {
     return (
-      <div>
-        <Container fluid>
-          {this.renderTitle()}
-          <Row>
-            {this.renderLists()}
-            <AddList clicked={this.onCreateList} />
-          </Row>
-        </Container>
-        {this.renderModal()}
-      </div>
+      <Container fluid>
+        {this.renderTitle()}
+        <Row>
+          {this.renderLists()}
+          <AddList clicked={this.onCreateList} />
+        </Row>
+      </Container>
     );
   }
 }

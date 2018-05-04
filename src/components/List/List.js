@@ -7,17 +7,31 @@ import Card from '../Card/Card';
 import {mapObjectToArray} from '../../utils';
 
 class List extends Component {
-  // create card
+  state = {
+    cards: null
+  };
+
+  async componentDidMount() {
+    const cardsResponse = await fetch(
+      `https://prollo-8a5a5.firebaseio.com/cards.json?orderBy="listId"&equalTo="${
+        this.props.list.id
+      }"`
+    );
+    const cards = await cardsResponse.json();
+
+    this.setState({cards: mapObjectToArray(cards)});
+  }
+
   onCreate = async title => {
     const oldCards = [...this.state.cards];
-    const listid = this.props.id;
+    const listId = this.props.id;
     const response = await fetch(
       'https://prollo-8a5a5.firebaseio.com/cards.json',
       {
         method: 'post',
         body: JSON.stringify({
           title,
-          listid,
+          listId,
           checklists: []
         })
       }
@@ -26,7 +40,7 @@ class List extends Component {
     const jsonResponse = await response.json();
     const card = {
       id: jsonResponse.name,
-      listid,
+      listId,
       title,
       checklists: []
     };
@@ -53,9 +67,6 @@ class List extends Component {
     this.setState({cards, activeCard});
   };
 
-  // add checklist
-
-  // add checklist item title
   setCheckitem = async itemtitle => {
     const checklist = this.state.checklists.find(
       // schlechte lösung, checklist.cardid ist nicht die aktive list
@@ -105,7 +116,7 @@ class List extends Component {
           boardid={this.props.boardId}
           key={this.props.id}
         >
-          <h2 className="h4 my-2">{this.props.listTitle}</h2>
+          <h2 className="h4 my-2">{this.props.list.title}</h2>
           {this.renderCards()}
           <CollapseButton
             text="Karte hinzufügen..."

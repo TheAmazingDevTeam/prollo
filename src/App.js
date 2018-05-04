@@ -8,7 +8,7 @@ import BoardOverview from './container/BoardOverview/BoardOverview';
 const app = () => (
   <Layout>
     <Switch>
-      <Route path="/board/:id" component={Board} />
+      <Route path="/board/:boardId" component={Board} />
       <Route path="/" component={BoardOverview} />
     </Switch>
   </Layout>
