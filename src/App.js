@@ -6,7 +6,7 @@ import Board from './container/Board/Board';
 import BoardOverview from './container/BoardOverview/BoardOverview';
 
 const app = () => (
-  <Layout boards={this.state.boards}>
+  <Layout>
     <Switch>
       <Route path="/board/:id" component={Board} />
       <Route path="/" component={BoardOverview} />
