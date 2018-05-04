@@ -10,7 +10,6 @@ const renderChecklists = (checklists, addItemToChecklist, toggleItem) => {
     return <p>add checklist</p>;
   }
 
-  console.log(checklists);
   return checklists.map(checklist => (
     <Checklist
       key={checklist.id}
