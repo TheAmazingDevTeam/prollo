@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, CardBody} from 'reactstrap';
 
 const cardComponent = props => (
-  <div onClick={props.toggle}>
+  <div onClick={() => props.toggleAndSetActive(props.card)}>
     <Card xs="2" className="mb-3" style={{cursor: 'pointer'}}>
       <CardBody>
         <h5>{props.card.title}</h5>

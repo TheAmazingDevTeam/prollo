@@ -10,6 +10,7 @@ import {mapObjectToArray} from '../../utils';
 class List extends Component {
   state = {
     cards: null,
+    activeCard: null,
     modal: false
   };
 
@@ -54,14 +55,39 @@ class List extends Component {
     }));
   };
 
+  setActiveCard = card => {
+    this.setState({activeCard: card});
+  };
+
+  toggleAndSetActive = card => {
+    this.setActiveCard(card);
+    this.toggleModal();
+  };
+
   renderCards = () => {
     if (!this.state.cards) {
       return <p>Loading...</p>;
     }
 
     return this.state.cards.map(card => (
-      <Card toggle={this.toggleModal} card={card} key={card.id} />
+      <Card
+        toggleAndSetActive={this.toggleAndSetActive}
+        card={card}
+        key={card.id}
+      />
     ));
+  };
+
+  renderModal = () => {
+    if (this.state.activeCard) {
+      return (
+        <CardModal
+          card={this.state.activeCard}
+          modal={this.state.modal}
+          toggle={this.toggleModal}
+        />
+      );
+    }
   };
 
   render() {
@@ -76,7 +102,7 @@ class List extends Component {
             clicked={this.onCreate}
           />
         </div>
-        <CardModal modal={this.state.modal} toggle={this.toggleModal} />
+        {this.renderModal()}
       </Col>
     );
   }

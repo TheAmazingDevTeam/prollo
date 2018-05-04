@@ -8,7 +8,7 @@ import CardChecklist from '../CardChecklist/CardChecklist';
 const cardModal = props => {
   return (
     <Modal isOpen={props.modal} toggle={props.toggle}>
-      <ModalHeader toggle={props.toggle}>Test</ModalHeader>
+      <ModalHeader toggle={props.toggle}>{props.card.title}</ModalHeader>
       <ModalBody>
         <Row>
           <Col xs="8">
