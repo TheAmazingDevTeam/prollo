@@ -78,14 +78,22 @@ class List extends Component {
   addChecklist = async title => {
     const activeCard = {
       ...this.state.activeCard,
-      checklists: [
-        ...this.state.activeCard.checklists,
-        {
-          id: this.state.activeCard.checklists.length + 1,
-          title,
-          items: []
-        }
-      ]
+      checklists: this.state.activeCard.checklists
+        ? [
+            ...this.state.activeCard.checklists,
+            {
+              id: this.state.activeCard.checklists.length + 1,
+              title,
+              items: []
+            }
+          ]
+        : [
+            {
+              id: 1,
+              title,
+              items: []
+            }
+          ]
     };
 
     const cards = this.state.cards.map(card => {
