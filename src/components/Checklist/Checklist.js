@@ -1,13 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {
-  Row,
-  Col,
-  Input,
-  Button,
-  ListGroup,
-  ListGroupItem,
-  Progress
-} from 'reactstrap';
+import {Row, Col, Input, Button, Progress} from 'reactstrap';
 
 class Checklist extends Component {
   state = {
@@ -17,8 +9,13 @@ class Checklist extends Component {
   getCompletedTodos = () =>
     this.props.checklist.items.filter(item => item.completed).length;
 
-  calculatePercentage = () =>
-    this.getCompletedTodos() / this.props.checklist.items.length * 100;
+  calculatePercentage = () => {
+    if (!this.props.checklist.items) {
+      return 0;
+    }
+
+    return this.getCompletedTodos() / this.props.checklist.items.length * 100;
+  };
 
   onInputChange = event => {
     this.setState({input: event.target.value});
@@ -54,7 +51,7 @@ class Checklist extends Component {
         <Row className="mb-3">
           <Col>
             <Input
-              size="sm"
+              bsSize="sm"
               value={this.state.input}
               onChange={this.onInputChange}
             />

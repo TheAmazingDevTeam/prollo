@@ -1,21 +1,24 @@
-import React, {Component, Fragment} from 'react';
-import {Modal, ModalHeader, ModalBody, Progress, Row, Col} from 'reactstrap';
+import React from 'react';
+import {Modal, ModalHeader, ModalBody, Row, Col} from 'reactstrap';
 
 import Popover from '../Popover/Popover';
 import CardDescription from '../CardDescription/CardDescriptrion';
 import Checklist from '../Checklist/Checklist';
 
 const renderChecklists = (checklists, addItemToChecklist, toggleItem) => {
-  if (checklists) {
-    return checklists.map(checklist => (
-      <Checklist
-        key={checklist.id}
-        addItemToChecklist={addItemToChecklist}
-        checklist={checklist}
-        toggleItem={toggleItem}
-      />
-    ));
+  if (!checklists) {
+    return <p>add checklist</p>;
   }
+
+  console.log(checklists);
+  return checklists.map(checklist => (
+    <Checklist
+      key={checklist.id}
+      addItemToChecklist={addItemToChecklist}
+      checklist={checklist}
+      toggleItem={toggleItem}
+    />
+  ));
 };
 
 const cardModal = props => {
