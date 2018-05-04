@@ -26,7 +26,6 @@ const cardModal = props => {
         <Row>
           <Col xs="8">
             <CardDescription card={props.card} clicked={props.addDescription} />
-            <Progress className="my-3" color="info" value="75" />
             {renderChecklists(
               props.card.checklists,
               props.addItemToChecklist,
