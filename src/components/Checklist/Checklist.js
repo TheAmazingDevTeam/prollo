@@ -66,7 +66,7 @@ class Checklist extends Component {
         </Row>
         <Progress
           className="my-3"
-          color="info"
+          color={this.calculatePercentage() === 100 ? 'success' : 'info'}
           value={this.calculatePercentage()}
         />
         <ListGroup>{this.renderChecklistItems()}</ListGroup>
