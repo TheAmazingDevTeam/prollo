@@ -10,6 +10,24 @@ class Checklist extends Component {
     this.setState({input: event.target.value});
   };
 
+  renderChecklistItems = () => {
+    if (!this.props.checklist.items) {
+      return <p>Add some items</p>;
+    }
+
+    return this.props.checklist.items.map(item => (
+      <ListGroupItem
+        style={{
+          textDecoration: item.completed ? 'line-through' : ''
+        }}
+        onClick={() => this.props.toggleItem(this.props.checklist.id, item.id)}
+        key={item.id}
+      >
+        {item.name}
+      </ListGroupItem>
+    ));
+  };
+
   render() {
     return (
       <Fragment>
@@ -19,14 +37,20 @@ class Checklist extends Component {
             <Input value={this.state.input} onChange={this.onInputChange} />
           </Col>
           <Col>
-            <Button color="light">Add item</Button>
+            <Button
+              onClick={() =>
+                this.props.addItemToChecklist(
+                  this.props.checklist.id,
+                  this.state.input
+                )
+              }
+              color="light"
+            >
+              Add item
+            </Button>
           </Col>
         </Row>
-        <ListGroup>
-          <ListGroupItem>Item 1</ListGroupItem>
-          <ListGroupItem>Item 2</ListGroupItem>
-          <ListGroupItem>Item 3</ListGroupItem>
-        </ListGroup>
+        <ListGroup>{this.renderChecklistItems()}</ListGroup>
       </Fragment>
     );
   }

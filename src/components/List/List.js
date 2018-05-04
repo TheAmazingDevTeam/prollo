@@ -81,10 +81,88 @@ class List extends Component {
       checklists: [
         ...this.state.activeCard.checklists,
         {
+          id: this.state.activeCard.checklists.length + 1,
           title,
           items: []
         }
       ]
+    };
+
+    const cards = this.state.cards.map(card => {
+      if (card.id === activeCard.id) {
+        return activeCard;
+      }
+
+      return card;
+    });
+
+    await fetch(
+      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+      {
+        method: 'put',
+        body: JSON.stringify({...activeCard})
+      }
+    );
+
+    this.setState({activeCard, cards});
+  };
+
+  toggleItem = async (checklistId, itemId) => {
+    const activeCard = {
+      ...this.state.activeCard,
+      checklists: this.state.activeCard.checklists.map(checklist => {
+        if (checklist.id === checklistId) {
+          return {
+            ...checklist,
+            items: checklist.items.map(item => {
+              if (item.id === itemId) {
+                return {...item, completed: !item.completed};
+              }
+
+              return item;
+            })
+          };
+        }
+
+        return checklist;
+      })
+    };
+
+    const cards = this.state.cards.map(card => {
+      if (card.id === activeCard.id) {
+        return activeCard;
+      }
+
+      return card;
+    });
+
+    await fetch(
+      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+      {
+        method: 'put',
+        body: JSON.stringify({...activeCard})
+      }
+    );
+
+    this.setState({activeCard, cards});
+  };
+
+  addItemToChecklist = async (id, name) => {
+    const activeCard = {
+      ...this.state.activeCard,
+      checklists: this.state.activeCard.checklists.map(checklist => {
+        if (checklist.id === id) {
+          return {
+            ...checklist,
+            items: [
+              ...checklist.items,
+              {id: checklist.items.length + 1, name, completed: false}
+            ]
+          };
+        }
+
+        return checklist;
+      })
     };
 
     const cards = this.state.cards.map(card => {
@@ -144,6 +222,8 @@ class List extends Component {
           toggle={this.toggleModal}
           addDescription={this.addDescription}
           addChecklist={this.addChecklist}
+          addItemToChecklist={this.addItemToChecklist}
+          toggleItem={this.toggleItem}
         />
       );
     }
