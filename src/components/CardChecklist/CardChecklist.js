@@ -19,12 +19,10 @@ class CardChecklist extends Component {
     });
   };
 
-  // input for item title
   onChangeItemHandler = event => {
     this.setState({itemName: event.target.value});
   };
 
-  // item button, sends item title
   onCreateItem = itemName => {
     this.toggle();
     this.props.toggled(itemName);
