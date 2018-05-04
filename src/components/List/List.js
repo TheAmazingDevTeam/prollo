@@ -32,6 +32,7 @@ class List extends Component {
     const card = {
       title,
       listId,
+      description: '',
       checklists: []
     };
 
@@ -47,6 +48,31 @@ class List extends Component {
 
     const cards = [...oldCards, {...card, id: jsonResponse.name}];
     this.setState({cards});
+  };
+
+  addDescription = async description => {
+    const activeCard = {
+      ...this.state.activeCard,
+      description
+    };
+
+    const cards = this.state.cards.map(card => {
+      if (card.id === activeCard.id) {
+        return activeCard;
+      }
+
+      return card;
+    });
+
+    await fetch(
+      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+      {
+        method: 'put',
+        body: JSON.stringify({...activeCard})
+      }
+    );
+
+    this.setState({activeCard, cards});
   };
 
   toggleModal = () => {
@@ -85,6 +111,7 @@ class List extends Component {
           card={this.state.activeCard}
           modal={this.state.modal}
           toggle={this.toggleModal}
+          addDescription={this.addDescription}
         />
       );
     }
