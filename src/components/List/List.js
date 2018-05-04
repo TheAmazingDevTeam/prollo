@@ -7,24 +7,6 @@ import Card from '../Card/Card';
 import {mapObjectToArray} from '../../utils';
 
 class List extends Component {
-  state = {
-    cards: null
-  };
-
-  // get cards items from API
-  async componentDidMount() {
-    const response = await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards.json?orderBy="listid"&equalTo="${
-        this.props.id
-      }"`
-    );
-    const cards = await response.json();
-
-    this.setState({
-      cards: mapObjectToArray(cards)
-    });
-  }
-
   // create card
   onCreate = async title => {
     const oldCards = [...this.state.cards];
@@ -33,7 +15,11 @@ class List extends Component {
       'https://prollo-8a5a5.firebaseio.com/cards.json',
       {
         method: 'post',
-        body: JSON.stringify({title, listid})
+        body: JSON.stringify({
+          title,
+          listid,
+          checklists: []
+        })
       }
     );
 
@@ -41,7 +27,8 @@ class List extends Component {
     const card = {
       id: jsonResponse.name,
       listid,
-      title
+      title,
+      checklists: []
     };
 
     const cards = [...oldCards, card];

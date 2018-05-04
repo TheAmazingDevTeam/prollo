@@ -5,28 +5,17 @@ import Popover from '../Popover/Popover';
 import CardDescription from '../CardDescription/CardDescriptrion';
 import CardChecklist from '../CardChecklist/CardChecklist';
 
-const getChecklists = (checklists, card, items, toggled) =>
-  checklists.map(
-    list =>
-      list.cardid === card.id ? (
-        <Fragment key={list.id}>
-          <b>{list.title}</b>
-          <ul>
-            {items.map(
-              item =>
-                item.checklistid === list.id ? (
-                  <li key={item.id}>{item.itemtitle}</li>
-                ) : null
-            )}
-          </ul>
-          <CardChecklist
-            toggled={toggled}
-            card={card}
-            checklists={checklists}
-          />
-        </Fragment>
-      ) : null
-  );
+const getChecklists = checklists => {
+  if (!checklists) {
+    return <strong>Keine Listen vorhanden.</strong>;
+  }
+
+  return checklists.map(list => (
+    <Fragment key={list.id}>
+      <b>{list.title}</b>
+    </Fragment>
+  ));
+};
 
 const renderAddChecklist = (checklists, click) => {
   if (checklists) {
@@ -54,7 +43,7 @@ const cardModal = props => {
           <Col xs="8">
             <CardDescription card={props.card} clicked={props.clicked} />
             <Progress className="my-3" color="info" value="75" />
-            {/* {getChecklists(checklist)} */}
+            {getChecklists(props.card.checklists)}
           </Col>
           <Col xs="4" className="text-center">
             <Fragment>

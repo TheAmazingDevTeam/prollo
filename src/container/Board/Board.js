@@ -10,6 +10,7 @@ import {mapObjectToArray} from '../../utils';
 class Board extends Component {
   state = {
     lists: null,
+    cards: null,
     activeBoard: null,
     activeCard: null,
     showModal: false
@@ -17,6 +18,11 @@ class Board extends Component {
 
   async componentDidMount() {
     const activeBoardId = this.props.match.params.id;
+
+    const cardsResponse = await fetch(
+      'https://prollo-8a5a5.firebaseio.com/cards.json'
+    );
+    const cards = await cardsResponse.json();
 
     const response = await fetch(
       `https://prollo-8a5a5.firebaseio.com/lists.json?orderBy="boardid"&equalTo="${activeBoardId}"`
@@ -30,7 +36,8 @@ class Board extends Component {
 
     this.setState({
       activeBoard: board,
-      lists: mapObjectToArray(lists)
+      lists: mapObjectToArray(lists),
+      cards: mapObjectToArray(cards)
     });
   }
 
@@ -70,18 +77,23 @@ class Board extends Component {
   };
 
   addChecklist = async (id, checklistTitle) => {
-    // TODO: API Request
+    const card = {
+      ...this.state.activeCard,
+      checklists: [
+        ...this.state.activeCard.checklists,
+        {
+          title: checklistTitle,
+          items: []
+        }
+      ]
+    };
 
-    this.setState(prevState => ({
-      activeCard: {
-        ...prevState.activeCard,
-        checklists: [
-          {
-            title: checklistTitle
-          }
-        ]
-      }
-    }));
+    await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${id}.json`, {
+      method: 'put',
+      body: JSON.stringify({...card})
+    });
+
+    this.setState({activeCard: card});
   };
 
   renderLists = () => {
