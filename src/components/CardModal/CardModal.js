@@ -23,7 +23,9 @@ const renderChecklists = (checklists, addItemToChecklist, toggleItem) => {
 const cardModal = props => {
   return (
     <Modal isOpen={props.modal} toggle={props.toggle}>
-      <ModalHeader toggle={props.toggle}>{props.card.title}</ModalHeader>
+      <ModalHeader className="bg-light" toggle={props.toggle}>
+        {props.card.title}
+      </ModalHeader>
       <ModalBody>
         <Row>
           <Col xs="8">

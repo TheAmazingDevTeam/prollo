@@ -29,7 +29,7 @@ class CardDescription extends Component {
 
   render() {
     return (
-      <div>
+      <div className="mb-4">
         <u
           onClick={this.toggle}
           className={this.props.classes}

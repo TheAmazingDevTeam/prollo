@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {Row, Col, Input, Button, Progress} from 'reactstrap';
 
 class Checklist extends Component {
@@ -21,6 +21,11 @@ class Checklist extends Component {
     this.setState({input: event.target.value});
   };
 
+  onAddItem = () => {
+    this.props.addItemToChecklist(this.props.checklist.id, this.state.input);
+    this.setState({input: ''});
+  };
+
   renderChecklistItems = () => {
     if (!this.props.checklist.items) {
       return <p>Add some items</p>;
@@ -41,7 +46,7 @@ class Checklist extends Component {
 
   render() {
     return (
-      <Fragment>
+      <div className="mb-4">
         <h5 className="mt-3">
           <span role="img" aria-label="Checkmark">
             ✔️
@@ -57,16 +62,7 @@ class Checklist extends Component {
             />
           </Col>
           <Col>
-            <Button
-              size="sm"
-              onClick={() =>
-                this.props.addItemToChecklist(
-                  this.props.checklist.id,
-                  this.state.input
-                )
-              }
-              color="light"
-            >
+            <Button size="sm" onClick={this.onAddItem} color="light">
               Add item
             </Button>
           </Col>
@@ -77,7 +73,7 @@ class Checklist extends Component {
           value={this.calculatePercentage()}
         />
         <ul>{this.renderChecklistItems()}</ul>
-      </Fragment>
+      </div>
     );
   }
 }

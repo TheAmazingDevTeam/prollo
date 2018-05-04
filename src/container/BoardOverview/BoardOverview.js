@@ -23,24 +23,27 @@ class BoardOverview extends Component {
 
   onCreate = async title => {
     const oldBoards = [...this.state.boards];
-    const response = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/boards.json',
-      {
-        method: 'post',
-        body: JSON.stringify({title})
-      }
-    );
 
-    const jsonResponse = await response.json();
-    const board = {
-      id: jsonResponse.name,
-      title
-    };
+    if (title.trim()) {
+      const response = await fetch(
+        'https://prollo-8a5a5.firebaseio.com/boards.json',
+        {
+          method: 'post',
+          body: JSON.stringify({title})
+        }
+      );
 
-    const boards = [...oldBoards, board];
+      const jsonResponse = await response.json();
+      const board = {
+        id: jsonResponse.name,
+        title
+      };
 
-    this.setState({boards});
-    this.props.history.push(`/board/${board.id}`);
+      const boards = [...oldBoards, board];
+
+      this.setState({boards});
+      this.props.history.push(`/board/${board.id}`);
+    }
   };
 
   toggleModal = () => {

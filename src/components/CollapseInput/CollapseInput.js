@@ -10,6 +10,11 @@ class CollapseInput extends Component {
     this.setState({objectName: event.target.value});
   };
 
+  onAddItem = () => {
+    this.props.clicked(this.state.objectName);
+    this.setState({objectName: ''});
+  };
+
   render() {
     return (
       <div>
@@ -20,11 +25,7 @@ class CollapseInput extends Component {
             onChange={this.onChangeHandler}
           />
         </InputGroup>
-        <Button
-          color="info"
-          className="my-2"
-          onClick={() => this.props.clicked(this.state.objectName)}
-        >
+        <Button color="info" className="my-2" onClick={this.onAddItem}>
           hinzufügen
         </Button>
       </div>

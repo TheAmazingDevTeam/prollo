@@ -26,28 +26,30 @@ class List extends Component {
   }
 
   onCreate = async title => {
-    const oldCards = [...this.state.cards];
-    const listId = this.props.list.id;
+    if (title.trim()) {
+      const oldCards = [...this.state.cards];
+      const listId = this.props.list.id;
 
-    const card = {
-      title,
-      listId,
-      description: '',
-      checklists: []
-    };
+      const card = {
+        title,
+        listId,
+        description: '',
+        checklists: []
+      };
 
-    const response = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/cards.json',
-      {
-        method: 'post',
-        body: JSON.stringify({...card})
-      }
-    );
+      const response = await fetch(
+        'https://prollo-8a5a5.firebaseio.com/cards.json',
+        {
+          method: 'post',
+          body: JSON.stringify({...card})
+        }
+      );
 
-    const jsonResponse = await response.json();
+      const jsonResponse = await response.json();
 
-    const cards = [...oldCards, {...card, id: jsonResponse.name}];
-    this.setState({cards});
+      const cards = [...oldCards, {...card, id: jsonResponse.name}];
+      this.setState({cards});
+    }
   };
 
   addDescription = async description => {
@@ -76,43 +78,45 @@ class List extends Component {
   };
 
   addChecklist = async title => {
-    const activeCard = {
-      ...this.state.activeCard,
-      checklists: this.state.activeCard.checklists
-        ? [
-            ...this.state.activeCard.checklists,
-            {
-              id: this.state.activeCard.checklists.length + 1,
-              title,
-              items: []
-            }
-          ]
-        : [
-            {
-              id: 1,
-              title,
-              items: []
-            }
-          ]
-    };
+    if (title.trim()) {
+      const activeCard = {
+        ...this.state.activeCard,
+        checklists: this.state.activeCard.checklists
+          ? [
+              ...this.state.activeCard.checklists,
+              {
+                id: this.state.activeCard.checklists.length + 1,
+                title,
+                items: []
+              }
+            ]
+          : [
+              {
+                id: 1,
+                title,
+                items: []
+              }
+            ]
+      };
 
-    const cards = this.state.cards.map(card => {
-      if (card.id === activeCard.id) {
-        return activeCard;
-      }
+      const cards = this.state.cards.map(card => {
+        if (card.id === activeCard.id) {
+          return activeCard;
+        }
 
-      return card;
-    });
+        return card;
+      });
 
-    await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
-      {
-        method: 'put',
-        body: JSON.stringify({...activeCard})
-      }
-    );
+      await fetch(
+        `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+        {
+          method: 'put',
+          body: JSON.stringify({...activeCard})
+        }
+      );
 
-    this.setState({activeCard, cards});
+      this.setState({activeCard, cards});
+    }
   };
 
   toggleItem = async (checklistId, itemId) => {
@@ -156,40 +160,42 @@ class List extends Component {
   };
 
   addItemToChecklist = async (id, name) => {
-    const activeCard = {
-      ...this.state.activeCard,
-      checklists: this.state.activeCard.checklists.map(checklist => {
-        if (checklist.id === id) {
-          return {
-            ...checklist,
-            items: [
-              ...checklist.items,
-              {id: checklist.items.length + 1, name, completed: false}
-            ]
-          };
+    if (name.trim()) {
+      const activeCard = {
+        ...this.state.activeCard,
+        checklists: this.state.activeCard.checklists.map(checklist => {
+          if (checklist.id === id) {
+            return {
+              ...checklist,
+              items: [
+                ...checklist.items,
+                {id: checklist.items.length + 1, name, completed: false}
+              ]
+            };
+          }
+
+          return checklist;
+        })
+      };
+
+      const cards = this.state.cards.map(card => {
+        if (card.id === activeCard.id) {
+          return activeCard;
         }
 
-        return checklist;
-      })
-    };
+        return card;
+      });
 
-    const cards = this.state.cards.map(card => {
-      if (card.id === activeCard.id) {
-        return activeCard;
-      }
+      await fetch(
+        `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+        {
+          method: 'put',
+          body: JSON.stringify({...activeCard})
+        }
+      );
 
-      return card;
-    });
-
-    await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
-      {
-        method: 'put',
-        body: JSON.stringify({...activeCard})
-      }
-    );
-
-    this.setState({activeCard, cards});
+      this.setState({activeCard, cards});
+    }
   };
 
   toggleModal = () => {

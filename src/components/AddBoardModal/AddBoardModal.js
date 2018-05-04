@@ -25,6 +25,7 @@ class AddBoardModal extends Component {
             <label>Board name:</label>
             <InputGroup>
               <Input
+                required
                 type="text"
                 onChange={this.onChangeHandler}
                 placeholder="My cool Todos"

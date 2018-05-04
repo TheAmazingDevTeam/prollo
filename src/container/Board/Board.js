@@ -45,27 +45,29 @@ class Board extends Component {
   }
 
   onCreateList = async title => {
-    const oldLists = [...this.state.lists];
-    const {boardId} = this.props.match.params;
+    if (title.trim()) {
+      const oldLists = [...this.state.lists];
+      const {boardId} = this.props.match.params;
 
-    const response = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/lists.json',
-      {
-        method: 'post',
-        body: JSON.stringify({title, boardId})
-      }
-    );
+      const response = await fetch(
+        'https://prollo-8a5a5.firebaseio.com/lists.json',
+        {
+          method: 'post',
+          body: JSON.stringify({title, boardId})
+        }
+      );
 
-    const jsonResponse = await response.json();
-    const list = {
-      id: jsonResponse.name,
-      boardId,
-      title
-    };
+      const jsonResponse = await response.json();
+      const list = {
+        id: jsonResponse.name,
+        boardId,
+        title
+      };
 
-    const lists = [...oldLists, list];
+      const lists = [...oldLists, list];
 
-    this.setState({lists});
+      this.setState({lists});
+    }
   };
 
   renderLists = () => {
@@ -88,7 +90,7 @@ class Board extends Component {
       return <p>Loading...</p>;
     }
 
-    return <h1 className="h3 my-4">{this.state.board.title}</h1>;
+    return <h1 className="h3 text-info my-4">{this.state.board.title}</h1>;
   };
 
   toggleModal = () => {
