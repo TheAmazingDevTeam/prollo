@@ -45,7 +45,12 @@ class Checklist extends Component {
   render() {
     return (
       <Fragment>
-        <h5 className="mt-3">{this.props.checklist.title}</h5>
+        <h5 className="mt-3">
+          <span role="img" aria-label="Checkmark">
+            ✔️
+          </span>
+          {this.props.checklist.title}
+        </h5>
         <Row className="mb-3">
           <Col>
             <Input
