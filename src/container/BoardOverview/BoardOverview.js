@@ -43,12 +43,16 @@ class BoardOverview extends Component {
     this.props.history.push(`/board/${board.id}`);
   };
 
-  toggle = () => {
+  toggleModal = () => {
     this.setState({modal: !this.state.modal});
   };
 
-  setActiveBoard = board => {
-    this.setState({activeBoard: board});
+  renderBoards = () => {
+    if (!this.state.boards) {
+      return <p>Loading Boards...</p>;
+    }
+
+    return <Boards boards={this.state.boards} />;
   };
 
   render() {
@@ -56,13 +60,13 @@ class BoardOverview extends Component {
       <Container>
         <h1 className="my-5">Personal Boards</h1>
         <Row>
-          <Boards boards={this.state.boards} clicked={this.props.clicked} />
+          {this.renderBoards()}
           <Col xs="4" className="mb-4">
-            <CreateBoard clicked={this.toggle} />
+            <CreateBoard clicked={this.toggleModal} />
           </Col>
         </Row>
         <CreateBoardModal
-          toggle={this.toggle}
+          toggle={this.toggleModal}
           showModal={this.state.modal}
           create={this.onCreate}
         />
