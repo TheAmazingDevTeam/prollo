@@ -20,7 +20,13 @@ class CollapseButton extends Component {
   render() {
     return (
       <div>
-        <p onClick={this.toggle} className={this.props.classes} style={{cursor: 'pointer'}}>{this.props.text}</p>
+        <p
+          onClick={this.toggle}
+          className={this.props.classes}
+          style={{cursor: 'pointer'}}
+        >
+          {this.props.text}
+        </p>
         <Collapse isOpen={this.state.collapse}>
           <CollapseInput clicked={this.onCreateList} />
         </Collapse>

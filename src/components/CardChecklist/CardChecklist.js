@@ -7,18 +7,22 @@ class CardChecklist extends Component {
     editing: false
   };
 
+  getInput = () =>
+    this.props.checklists.map(
+      list => (list.cardid === this.props.card.id ? 'Element hinzufügen' : null)
+    );
+
   toggle = () => {
     this.setState({
-      editing: !this.state.editing
+      editing: !this.state.editing,
+      itemName: ''
     });
   };
 
-  // input for item title
   onChangeItemHandler = event => {
     this.setState({itemName: event.target.value});
   };
 
-  // item button, sends item title
   onCreateItem = itemName => {
     this.toggle();
     this.props.toggled(itemName);
@@ -28,13 +32,9 @@ class CardChecklist extends Component {
     return (
       <div>
         <u className="ml-4" onClick={this.toggle} style={{cursor: 'pointer'}}>
-          {this.props.card.checklists ?
-            this.state.editing ?
-            'Neues Element ..' :
-            'Element hinzufügen'
-            : null}
+          {this.getInput()}
         </u>
-        {this.state.editing ?
+        {this.state.editing ? (
           <FormGroup size="sm" className="mt-3">
             <Input
               type="text"
@@ -46,9 +46,11 @@ class CardChecklist extends Component {
               color="info"
               className="my-2"
               onClick={() => this.onCreateItem(this.state.itemName)}
-            >add</Button>
+            >
+              add
+            </Button>
           </FormGroup>
-        : null}
+        ) : null}
       </div>
     );
   }

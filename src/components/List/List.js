@@ -5,113 +5,260 @@ import {withRouter} from 'react-router-dom';
 import CollapseButton from '../CollapseButton/CollapseButton';
 import Card from '../Card/Card';
 import CardModal from '../CardModal/CardModal';
-
+import {mapObjectToArray} from '../../utils';
 
 class List extends Component {
   state = {
     cards: null,
-    activeCard: {},
+    activeCard: null,
     modal: false
   };
 
-  // get cards from API
   async componentDidMount() {
-    const response = await fetch('https://prollo-8a5a5.firebaseio.com/cards.json');
-    const cards = await response.json();
-    const updatedCards = [];
+    const cardsResponse = await fetch(
+      `https://prollo-8a5a5.firebaseio.com/cards.json?orderBy="listId"&equalTo="${
+        this.props.list.id
+      }"`
+    );
+    const cards = await cardsResponse.json();
 
-    for (let key in cards) {
-      updatedCards.push({
-        id: key,
-        ...cards[key]
-      });
+    this.setState({cards: mapObjectToArray(cards)});
+  }
+
+  onCreate = async title => {
+    if (title.trim()) {
+      const oldCards = [...this.state.cards];
+      const listId = this.props.list.id;
+
+      const card = {
+        title,
+        listId,
+        description: '',
+        checklists: []
+      };
+
+      const response = await fetch(
+        'https://prollo-8a5a5.firebaseio.com/cards.json',
+        {
+          method: 'post',
+          body: JSON.stringify({...card})
+        }
+      );
+
+      const jsonResponse = await response.json();
+
+      const cards = [...oldCards, {...card, id: jsonResponse.name}];
+      this.setState({cards});
+    }
+  };
+
+  addDescription = async description => {
+    const activeCard = {
+      ...this.state.activeCard,
+      description
     };
 
-    this.setState({cards: updatedCards});
-  };
+    const cards = this.state.cards.map(card => {
+      if (card.id === activeCard.id) {
+        return activeCard;
+      }
 
-  // add card description
-  setDescription = async description => {
-    const activeCard = {...this.state.activeCard, description};
-
-    await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`, {
-      method: 'put',
-      body:  JSON.stringify(activeCard)
+      return card;
     });
 
-    const cards = this.state.cards.map((card) => card.id === activeCard.id ? activeCard : card);
-    this.setState({cards, activeCard});
+    await fetch(
+      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+      {
+        method: 'put',
+        body: JSON.stringify({...activeCard})
+      }
+    );
+
+    this.setState({activeCard, cards});
   };
 
-  // add checklist
-  setChecklist = async title => {
-    const activeCard = this.state.activeCard;
-    await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists.json`, {
-      method: 'post',
-      body:  JSON.stringify({title})
-    });
-    const response = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`);
-    const newActiveCard = await response.json();
+  addChecklist = async title => {
+    if (title.trim()) {
+      const activeCard = {
+        ...this.state.activeCard,
+        checklists: this.state.activeCard.checklists
+          ? [
+              ...this.state.activeCard.checklists,
+              {
+                id: this.state.activeCard.checklists.length + 1,
+                title,
+                items: []
+              }
+            ]
+          : [
+              {
+                id: 1,
+                title,
+                items: []
+              }
+            ]
+      };
 
-    this.setState({activeCard: newActiveCard});
+      const cards = this.state.cards.map(card => {
+        if (card.id === activeCard.id) {
+          return activeCard;
+        }
+
+        return card;
+      });
+
+      await fetch(
+        `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+        {
+          method: 'put',
+          body: JSON.stringify({...activeCard})
+        }
+      );
+
+      this.setState({activeCard, cards});
+    }
   };
 
-  // add checklist item title
-  setCheckitem = async itemtitle => {
-    const activeCard = {...this.state.activeCard};
-    const checklistId = Object.keys(this.state.activeCard.checklists)
-    await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}/checklists/${checklistId}/items.json`, {
-      method: 'post',
-      body: JSON.stringify({itemtitle, completed: false})
+  toggleItem = async (checklistId, itemId) => {
+    const activeCard = {
+      ...this.state.activeCard,
+      checklists: this.state.activeCard.checklists.map(checklist => {
+        if (checklist.id === checklistId) {
+          return {
+            ...checklist,
+            items: checklist.items.map(item => {
+              if (item.id === itemId) {
+                return {...item, completed: !item.completed};
+              }
+
+              return item;
+            })
+          };
+        }
+
+        return checklist;
+      })
+    };
+
+    const cards = this.state.cards.map(card => {
+      if (card.id === activeCard.id) {
+        return activeCard;
+      }
+
+      return card;
     });
 
-    const response = await fetch(`https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`);
-    const newActiveCard = await response.json();
+    await fetch(
+      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+      {
+        method: 'put',
+        body: JSON.stringify({...activeCard})
+      }
+    );
 
-    this.setState({activeCard: newActiveCard});
+    this.setState({activeCard, cards});
   };
 
-  // set active card and modal status
-  toggle = card => {
-    this.setState({
-      modal: !this.state.modal,
-      activeCard: card
-    });
+  addItemToChecklist = async (id, name) => {
+    if (name.trim()) {
+      const activeCard = {
+        ...this.state.activeCard,
+        checklists: this.state.activeCard.checklists.map(checklist => {
+          if (checklist.id === id) {
+            return {
+              ...checklist,
+              items: [
+                ...checklist.items,
+                {id: checklist.items.length + 1, name, completed: false}
+              ]
+            };
+          }
+
+          return checklist;
+        })
+      };
+
+      const cards = this.state.cards.map(card => {
+        if (card.id === activeCard.id) {
+          return activeCard;
+        }
+
+        return card;
+      });
+
+      await fetch(
+        `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
+        {
+          method: 'put',
+          body: JSON.stringify({...activeCard})
+        }
+      );
+
+      this.setState({activeCard, cards});
+    }
+  };
+
+  toggleModal = () => {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  };
+
+  setActiveCard = card => {
+    this.setState({activeCard: card});
+  };
+
+  toggleAndSetActive = card => {
+    this.setActiveCard(card);
+    this.toggleModal();
+  };
+
+  renderCards = () => {
+    if (!this.state.cards) {
+      return <p>Loading...</p>;
+    }
+
+    return this.state.cards.map(card => (
+      <Card
+        toggleAndSetActive={this.toggleAndSetActive}
+        card={card}
+        key={card.id}
+      />
+    ));
+  };
+
+  renderModal = () => {
+    if (this.state.activeCard) {
+      return (
+        <CardModal
+          card={this.state.activeCard}
+          modal={this.state.modal}
+          toggle={this.toggleModal}
+          addDescription={this.addDescription}
+          addChecklist={this.addChecklist}
+          addItemToChecklist={this.addItemToChecklist}
+          toggleItem={this.toggleItem}
+        />
+      );
+    }
   };
 
   render() {
-    let cards = <p>Loading...</p>;
-
-    if (this.state.cards) {
-      cards = (
-        <Col xs="2">
-          <div className="bg-light rounded px-3 py-1" boardid={this.props.boardId} key={this.props.id}>
-            <h2 className="h4 my-2">{this.props.listTitle}</h2>
-              {this.state.cards.map(card =>
-                card.listid === this.props.id ?
-                <Card card={card} key={card.id}
-                toggled={this.toggle} /> : null
-              )}
-            <CollapseButton
-              text="Karte hinzufügen..."
-              classes=""
-              id={this.props.id}
-              clicked={this.onCreate}
-            />
-          </div>
-          <CardModal
-            toggle={this.toggle}
-            toggled={this.setCheckitem}
-            showModal={this.state.modal}
-            modal={this.state.modal}
-            card={this.state.activeCard}
-            click={this.setChecklist}
-            clicked={this.setDescription} />
-        </Col>
-      );
-    }
-    return cards;
+    return (
+      <Col xs="2">
+        <div className="bg-light rounded px-3 py-1">
+          <h2 className="h4 my-2">{this.props.list.title}</h2>
+          {this.renderCards()}
+          <CollapseButton
+            text="Karte hinzufügen..."
+            id={this.props.id}
+            clicked={this.onCreate}
+          />
+        </div>
+        {this.renderModal()}
+      </Col>
+    );
   }
-};
+}
 
 export default withRouter(List);

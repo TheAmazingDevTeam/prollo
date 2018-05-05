@@ -6,7 +6,12 @@ const boardSelection = props => (
   <Card color="light">
     <CardBody>
       <CardTitle className="h5 text-center">{props.title}</CardTitle>
-      <Link to={`board/${props.id}`} className="btn btn-info btn-block mx-auto w-25">open</Link>
+      <Link
+        to={`board/${props.id}`}
+        className="btn btn-info btn-block mx-auto w-25"
+      >
+        open
+      </Link>
     </CardBody>
   </Card>
 );

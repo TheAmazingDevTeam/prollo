@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {ModalBody, FormGroup, Form, Button, Input, InputGroup} from 'reactstrap';
+import {
+  ModalBody,
+  FormGroup,
+  Form,
+  Button,
+  Input,
+  InputGroup
+} from 'reactstrap';
 
 class AddBoardModal extends Component {
   state = {
@@ -10,24 +17,28 @@ class AddBoardModal extends Component {
     this.setState({boardName: event.target.value});
   };
 
- render() {
-   return (
+  render() {
+    return (
       <ModalBody>
         <Form>
           <FormGroup>
             <label>Board name:</label>
             <InputGroup>
               <Input
+                required
                 type="text"
                 onChange={this.onChangeHandler}
-                placeholder="My cool Todos" />
+                placeholder="My cool Todos"
+              />
             </InputGroup>
           </FormGroup>
           <div className="d-flex flex-row-reverse">
             <Button
               color="info"
               onClick={() => this.props.clicked(this.state.boardName)}
-            >Create</Button>
+            >
+              Create
+            </Button>
           </div>
         </Form>
       </ModalBody>

@@ -19,10 +19,9 @@ class OpenInputButton extends Component {
         </DropdownToggle>
         <DropdownMenu>
           {this.props.boards.map(board => (
-            <Link
-              to={`/board/${board.id}`}
-              key={board.id}
-            ><DropdownItem>{board.title}</DropdownItem></Link>
+            <Link to={`/board/${board.id}`} key={board.id}>
+              <DropdownItem>{board.title}</DropdownItem>
+            </Link>
           ))}
         </DropdownMenu>
       </Dropdown>
