@@ -90,7 +90,7 @@ class Board extends Component {
       return <p>Loading...</p>;
     }
 
-    return <h1 className="h3 text-info my-4">{this.state.board.title}</h1>;
+    return <h1 className="h3 my-4">{this.state.board.title}</h1>;
   };
 
   toggleModal = () => {

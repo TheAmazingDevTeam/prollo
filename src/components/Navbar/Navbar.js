@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 const navbar = props => (
   <Navbar color="light" light expand>
-    <Link className="mx-auto navbar-brand" to="/">
+    <Link className="text-info mx-auto navbar-brand" to="/">
       Prollo
     </Link>
   </Navbar>
