@@ -19,11 +19,11 @@ const layout = props => (
       height="466"
       params={{
         particles: {
-          number: {value: 20, density: {enable: !0, value_area: 800}},
-          color: {value: '#ffc0e5'},
+          number: {value: 30, density: {enable: !0, value_area: 800}},
+          color: {value: '#17a2b8'},
           shape: {
             type: 'circle',
-            stroke: {width: 4, color: '#fdd7ed'},
+            stroke: {width: 6, color: '#1dd5f2'},
             polygon: {nb_sides: 5}
           },
           opacity: {
@@ -39,7 +39,7 @@ const layout = props => (
           line_linked: {
             enable: !0,
             distance: 150,
-            color: '#ffc0e5',
+            color: '#17a2b8',
             opacity: 0.3,
             width: 1
           },
