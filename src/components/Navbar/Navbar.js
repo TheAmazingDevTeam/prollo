@@ -1,7 +1,11 @@
 import React from 'react';
 import {Navbar} from 'reactstrap';
-import {Link, withRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
+/**
+ * Show a navbar
+ * @param {object} props
+ */
 const navbar = props => (
   <Navbar color="light" light expand>
     <Link className="text-info mx-auto navbar-brand" to="/">
@@ -10,4 +14,4 @@ const navbar = props => (
   </Navbar>
 );
 
-export default withRouter(navbar);
+export default navbar;

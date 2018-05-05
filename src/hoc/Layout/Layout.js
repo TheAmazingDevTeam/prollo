@@ -3,9 +3,13 @@ import Particles from 'react-particles-js';
 
 import Navbar from '../../components/Navbar/Navbar';
 
+/**
+ * Render layout for the App including Particles and Navbar
+ * @param {object} props - Props received
+ */
 const layout = props => (
   <Fragment>
-    <Navbar boards={props.boards} />
+    <Navbar />
     <Particles
       style={{
         minHeight: '100%',
