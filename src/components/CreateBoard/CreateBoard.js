@@ -1,6 +1,10 @@
 import React from 'react';
 import {Card, CardTitle, CardBody, Button} from 'reactstrap';
 
+/**
+ * Card to toggle an modal
+ * @param {object} props
+ */
 const createBoard = props => (
   <Card color="light">
     <CardBody>
