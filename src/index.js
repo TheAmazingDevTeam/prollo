@@ -6,7 +6,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 /**
- * Wrap App Component with router
+ * Wrap App component with router
  */
 const app = (
   <BrowserRouter>
@@ -15,7 +15,7 @@ const app = (
 );
 
 /**
- * Mount App Component to DOM
+ * Mount App component to DOM
  */
 ReactDOM.render(app, document.getElementById('root'));
 registerServiceWorker();
