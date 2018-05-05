@@ -1,14 +1,24 @@
 import React, {Component} from 'react';
 import {Row, Col, Input, Button, Progress} from 'reactstrap';
 
+/** Checklist is a stateful component to render a checklist of items */
 class Checklist extends Component {
+  /** Manage input via state */
   state = {
     input: ''
   };
 
+  /**
+   * Get all completed todos
+   * @returns {number} - Number of completed todos
+   */
   getCompletedTodos = () =>
     this.props.checklist.items.filter(item => item.completed).length;
 
+  /**
+   * Calculate percentage of completed todos
+   * @returns {number} - Percentage of completed todos
+   */
   calculatePercentage = () => {
     if (!this.props.checklist.items) {
       return 0;
@@ -17,15 +27,21 @@ class Checklist extends Component {
     return this.getCompletedTodos() / this.props.checklist.items.length * 100;
   };
 
+  /**
+   * Map inputfield to state
+   * @param {object} event - Input event
+   */
   onInputChange = event => {
     this.setState({input: event.target.value});
   };
 
+  /** Add Item to checklist */
   onAddItem = () => {
     this.props.addItemToChecklist(this.props.checklist.id, this.state.input);
     this.setState({input: ''});
   };
 
+  /** Render items of checklist */
   renderChecklistItems = () => {
     if (!this.props.checklist.items) {
       return <p>Add some items</p>;
@@ -44,6 +60,10 @@ class Checklist extends Component {
     ));
   };
 
+  /**
+   * Render Checklist component
+   * @return {JSX}
+   */
   render() {
     return (
       <div className="mb-4">

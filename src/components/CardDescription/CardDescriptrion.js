@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {Input, FormGroup, Button} from 'reactstrap';
 
+/** CardDescription is a stateful component, to edit a card description */
 class CardDescription extends Component {
+  /** Manage inputtext and editing mode */
   state = {
     editing: false,
     objectName: ''
   };
 
-  // get card description from API
+  /** Toggle editing and input text */
   toggle = () => {
     this.setState({
       editing: !this.state.editing,
@@ -15,18 +17,24 @@ class CardDescription extends Component {
     });
   };
 
-  // input for description
+  /** Map input text to staste */
   onChangeHandler = event => {
-    this.setState({objectName: event.target.value});
-    this.setState({editing: true});
+    this.setState({
+      objectName: event.target.value,
+      editing: true
+    });
   };
 
-  // description button, sends description
+  /**
+   * Toggle editing mode and create description
+   * @param {string} objectName - Input text
+   */
   onCreateCard = objectName => {
     this.toggle();
     this.props.clicked(objectName);
   };
 
+  /** Render CardDescription */
   render() {
     return (
       <div className="mb-4">
