@@ -323,7 +323,7 @@ class List extends Component {
           <h2 className="h4 my-2">{this.props.list.title}</h2>
           {this.renderCards()}
           <CollapseButton
-            text="Karte hinzufügen..."
+            text="Add card..."
             id={this.props.id}
             clicked={this.onCreate}
           />

@@ -37,7 +37,7 @@ class CollapseInput extends Component {
           />
         </InputGroup>
         <Button color="info" className="my-2" onClick={this.onAddItem}>
-          hinzufügen
+          add
         </Button>
       </div>
     );

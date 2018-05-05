@@ -50,7 +50,7 @@ class AddBoardModal extends Component {
               color="info"
               onClick={() => this.props.clicked(this.state.boardName)}
             >
-              Create
+              create
             </Button>
           </div>
         </Form>

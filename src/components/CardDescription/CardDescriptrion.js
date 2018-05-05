@@ -44,8 +44,8 @@ class CardDescription extends Component {
           style={{cursor: 'pointer'}}
         >
           {this.props.card.description
-            ? 'Beschreibung bearbeiten:'
-            : 'Beschreibung hinzufügen:'}
+            ? 'Edit description:'
+            : 'Add description:'}
         </u>
         {this.state.editing || !this.props.card.description ? (
           <FormGroup size="md">
