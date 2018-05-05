@@ -1,0 +1,4 @@
+.Card:hover {
+  cursor: pointer;
+  background-color: #eee;
+}

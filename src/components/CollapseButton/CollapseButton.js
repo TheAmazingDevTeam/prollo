@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Collapse} from 'reactstrap';
 
+import './CollapseButton.css';
 import CollapseInput from '../CollapseInput/CollapseInput';
 
 /** CollapseButton is a stateful Component which includes an input */
@@ -30,7 +31,7 @@ class CollapseButton extends Component {
    */
   render() {
     return (
-      <div>
+      <div className="CollapseButton">
         <p
           onClick={this.toggle}
           className={this.props.classes}

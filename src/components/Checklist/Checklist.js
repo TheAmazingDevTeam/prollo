@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Row, Col, Input, Button, Progress} from 'reactstrap';
 
+import './Checklist.css';
+
 /** Checklist is a stateful component to render a checklist of items */
 class Checklist extends Component {
   /** Manage input via state */
@@ -49,6 +51,7 @@ class Checklist extends Component {
 
     return this.props.checklist.items.map(item => (
       <li
+        className="ChecklistItem"
         style={{
           textDecoration: item.completed ? 'line-through' : ''
         }}
