@@ -41,16 +41,18 @@ const cardModal = props => (
     </ModalHeader>
     <ModalBody>
       <Row>
-        <Col xs="8">
-          <CardDescription card={props.card} clicked={props.addDescription} />
-          {renderChecklists(
-            props.card.checklists,
-            props.addItemToChecklist,
-            props.toggleItem
-          )}
-        </Col>
-        <Col xs="4">
-          <Popover clicked={props.addChecklist} />
+        <Col>
+          <Col xs="12" className="text-right">
+            <Popover clicked={props.addChecklist} />
+          </Col>
+          <Col xs="12" md="9">
+            <CardDescription card={props.card} clicked={props.addDescription} />
+            {renderChecklists(
+              props.card.checklists,
+              props.addItemToChecklist,
+              props.toggleItem
+            )}
+          </Col>
         </Col>
       </Row>
     </ModalBody>

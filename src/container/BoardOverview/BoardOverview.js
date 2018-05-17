@@ -95,7 +95,7 @@ class BoardOverview extends Component {
         <h1 className="my-5">Personal Boards</h1>
         <Row>
           {this.renderBoards()}
-          <Col xs="4" className="mb-4">
+          <Col xs="12" md="4" className="mb-4">
             <CreateBoard clicked={this.toggleModal} />
           </Col>
         </Row>

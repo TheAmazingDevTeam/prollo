@@ -32,7 +32,7 @@ class PopoverClass extends Component {
           size="sm"
           onClick={this.toggle}
         >
-          New Checklist
+          New&shy;Checklist
         </Button>
         <Popover
           placement="bottom"
