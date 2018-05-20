@@ -8,9 +8,9 @@ class PopoverClass extends Component {
   };
 
   toggle = () => {
-    this.setState({
+    this.setState(prevState => ({
       popoverOpen: !this.state.popoverOpen
-    });
+    }));
   };
 
   onChangeHandler = event => {

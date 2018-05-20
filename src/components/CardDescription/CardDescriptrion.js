@@ -11,10 +11,10 @@ class CardDescription extends Component {
 
   /** Toggle editing and input text */
   toggle = () => {
-    this.setState({
+    this.setState(prevState => ({
       editing: !this.state.editing,
       objectName: this.props.card.description
-    });
+    }));
   };
 
   /** Map input text to staste */
