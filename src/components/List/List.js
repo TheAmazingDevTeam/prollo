@@ -318,7 +318,7 @@ class List extends Component {
    */
   render() {
     return (
-      <Col xs="2">
+      <Col xs="12" md="4" lg="2" className="pb-5">
         <div className="bg-light rounded px-3 py-1">
           <h2 className="h4 my-2">{this.props.list.title}</h2>
           {this.renderCards()}
