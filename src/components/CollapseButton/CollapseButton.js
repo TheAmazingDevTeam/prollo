@@ -13,7 +13,7 @@ class CollapseButton extends Component {
 
   /** Toggle collapse */
   toggle = () => {
-    this.setState({collapse: !this.state.collapse});
+    this.setState(prevState => ({collapse: !prevState.collapse}));
   };
 
   /**

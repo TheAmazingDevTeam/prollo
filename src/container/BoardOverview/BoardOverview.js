@@ -67,7 +67,9 @@ class BoardOverview extends Component {
 
   /** Toggle the modal */
   toggleModal = () => {
-    this.setState({modal: !this.state.modal});
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
   };
 
   /**

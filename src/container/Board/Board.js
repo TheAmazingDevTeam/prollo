@@ -119,7 +119,7 @@ class Board extends Component {
 
   /** Toggle modal state */
   toggleModal = () => {
-    this.setState({showModal: !this.state.showModal});
+    this.setState(prevState => ({showModal: !prevState.showModal}));
   };
 
   /** Render the Board component */
