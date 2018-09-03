@@ -12,11 +12,11 @@ const layout = props => (
     <Navbar />
     <Particles
       style={{
-        minHeight: '100%',
+        top: 0,
+        left: 0,
         position: 'absolute',
         zIndex: -1
       }}
-      height="466"
       params={{
         particles: {
           number: {value: 30, density: {enable: !0, value_area: 800}},
