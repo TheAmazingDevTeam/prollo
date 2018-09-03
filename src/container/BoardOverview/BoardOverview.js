@@ -5,6 +5,7 @@ import CreateBoard from '../../components/CreateBoard/CreateBoard';
 import Boards from '../../components/Boards/Boards';
 import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal';
 import {mapObjectToArray} from '../../utils';
+import url from '../../firebase';
 
 /**
  * BoardOverview is class based stateful component.
@@ -20,9 +21,7 @@ class BoardOverview extends Component {
   /** Fetch all boards when mounted */
   async componentDidMount() {
     /** Request to API */
-    const response = await fetch(
-      'https://prollo-8a5a5.firebaseio.com/boards.json'
-    );
+    const response = await fetch(`${url}/boards.json`);
     const boards = await response.json();
 
     /** Set state.boards equal to the array of fetched boards */
@@ -40,13 +39,10 @@ class BoardOverview extends Component {
     /** Only create board if the title is not empty */
     if (title.trim()) {
       /** Create new board in database */
-      const response = await fetch(
-        'https://prollo-8a5a5.firebaseio.com/boards.json',
-        {
-          method: 'post',
-          body: JSON.stringify({title})
-        }
-      );
+      const response = await fetch(`${url}/boards.json`, {
+        method: 'post',
+        body: JSON.stringify({title})
+      });
       const jsonResponse = await response.json();
 
       /** Create object with id of the board and the title */

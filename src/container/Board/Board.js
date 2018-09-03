@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import List from '../../components/List/List';
 import AddList from '../../components/AddList/AddList';
 import {mapObjectToArray} from '../../utils';
+import url from '../../firebase';
 
 /**
  * Board is a stateful component which represents a single board.
@@ -24,17 +25,14 @@ class Board extends Component {
     const {boardId} = this.props.match.params;
 
     /** Fetch current board */
-    const boardResponse = await fetch(
-      `https://prollo-8a5a5.firebaseio.com/boards/${boardId}.json`
-    );
+    const boardResponse = await fetch(`${url}/boards/${boardId}.json`);
     const board = await boardResponse.json();
 
     /** Fetch lists with the boardId */
     const listsResponse = await fetch(
-      `https://prollo-8a5a5.firebaseio.com/lists.json?orderBy="boardId"&equalTo="${boardId}"`
+      `${url}/lists.json?orderBy="boardId"&equalTo="${boardId}"`
     );
     const lists = await listsResponse.json();
-
     /** Set board and lists state */
     this.setState({
       board,
@@ -56,13 +54,10 @@ class Board extends Component {
       const {boardId} = this.props.match.params;
 
       /** POST new list to API and store result in response */
-      const response = await fetch(
-        'https://prollo-8a5a5.firebaseio.com/lists.json',
-        {
-          method: 'post',
-          body: JSON.stringify({title, boardId})
-        }
-      );
+      const response = await fetch(`${url}/lists.json`, {
+        method: 'post',
+        body: JSON.stringify({title, boardId})
+      });
       const jsonResponse = await response.json();
 
       /** Create a new list object */

@@ -6,6 +6,7 @@ import CollapseButton from '../CollapseButton/CollapseButton';
 import Card from '../Card/Card';
 import CardModal from '../CardModal/CardModal';
 import {mapObjectToArray} from '../../utils';
+import url from '../../firebase';
 
 /**
  * List is a stateful component which renders a list containing cards
@@ -22,9 +23,7 @@ class List extends Component {
   async componentDidMount() {
     /** Fetch cards */
     const cardsResponse = await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards.json?orderBy="listId"&equalTo="${
-        this.props.list.id
-      }"`
+      `${url}/cards.json?orderBy="listId"&equalTo="${this.props.list.id}"`
     );
     const cards = await cardsResponse.json();
 
@@ -53,13 +52,10 @@ class List extends Component {
       };
 
       /** POST new card to API and store it */
-      const response = await fetch(
-        'https://prollo-8a5a5.firebaseio.com/cards.json',
-        {
-          method: 'post',
-          body: JSON.stringify({...card})
-        }
-      );
+      const response = await fetch(`${url}/cards.json`, {
+        method: 'post',
+        body: JSON.stringify({...card})
+      });
       const jsonResponse = await response.json();
 
       /** Merge oldCards with the new card */
@@ -90,13 +86,10 @@ class List extends Component {
     });
 
     /** PUT card to API */
-    await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
-      {
-        method: 'put',
-        body: JSON.stringify({...activeCard})
-      }
-    );
+    await fetch(`${url}/cards/${activeCard.id}.json`, {
+      method: 'put',
+      body: JSON.stringify({...activeCard})
+    });
 
     /** Set state of activeCard and cards */
     this.setState({activeCard, cards});
@@ -140,13 +133,10 @@ class List extends Component {
       });
 
       /** PUT new card to API */
-      await fetch(
-        `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
-        {
-          method: 'put',
-          body: JSON.stringify({...activeCard})
-        }
-      );
+      await fetch(`${url}/cards/${activeCard.id}.json`, {
+        method: 'put',
+        body: JSON.stringify({...activeCard})
+      });
 
       /** Set state of activeCard and cards */
       this.setState({activeCard, cards});
@@ -190,13 +180,10 @@ class List extends Component {
     });
 
     /** PUT new card to API */
-    await fetch(
-      `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
-      {
-        method: 'put',
-        body: JSON.stringify({...activeCard})
-      }
-    );
+    await fetch(`${url}/cards/${activeCard.id}.json`, {
+      method: 'put',
+      body: JSON.stringify({...activeCard})
+    });
 
     /** Set state of activeCard and cards */
     this.setState({activeCard, cards});
@@ -238,13 +225,10 @@ class List extends Component {
       });
 
       /** PUT new card to API */
-      await fetch(
-        `https://prollo-8a5a5.firebaseio.com/cards/${activeCard.id}.json`,
-        {
-          method: 'put',
-          body: JSON.stringify({...activeCard})
-        }
-      );
+      await fetch(`${url}/cards/${activeCard.id}.json`, {
+        method: 'put',
+        body: JSON.stringify({...activeCard})
+      });
 
       /** Set state of activeCard and cards */
       this.setState({activeCard, cards});
